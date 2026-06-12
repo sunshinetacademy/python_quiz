@@ -1179,9 +1179,9 @@ const allLectures = [
       { q: "يمكن استخدام elif لأكثر من شرط", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
       { q: "ما رمز المساواة في الشرط؟", type: "mcq", options: ["==", "=", "!=", ">="], correct: 0, difficulty: "easy" },
       { q: "ما ناتج: <code>if 5 > 3: print(\"نعم\")</code>؟", type: "mcq", options: ["نعم", "لا شيء", "خطأ", "5"], correct: 0, difficulty: "medium" },
-      { q: "ما ناتج: <code>if 2 > 5: print(\"أ\") else: print(\"ب\")</code>؟", type: "mcq", options: ["ب", "أ", "أ ب", "خطأ"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>if 2 > 5:\n    print(\"أ\")\nelse:\n    print(\"ب\")</div>", type: "mcq", options: ["ب", "أ", "أ ب", "خطأ"], correct: 0, difficulty: "medium" },
       { q: "ما رمز \"لا يساوي\" في بايثون؟", type: "mcq", options: ["!=", "<>", "/=", "=/"], correct: 0, difficulty: "medium" },
-      { q: "ما ناتج: <code>x = 10; if x > 5: print(\"كبير\") elif x > 8: print(\"أكبر\")</code>؟", type: "mcq", options: ["كبير", "أكبر", "كبير أكبر", "لا شيء"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>x = 10\nif x > 5:\n    print(\"كبير\")\nelif x > 8:\n    print(\"أكبر\")</div>", type: "mcq", options: ["كبير", "أكبر", "كبير أكبر", "لا شيء"], correct: 0, difficulty: "medium" },
       { q: "ما الفرق بين <code>=</code> و <code>==</code>؟", type: "mcq", options: ["= للتخزين و == للمقارنة", "لا فرق", "== للتخزين و = للمقارنة", "كلاهما للمقارنة"], correct: 0, difficulty: "hard" }
     ]
   },
@@ -1195,10 +1195,10 @@ const allLectures = [
       { q: "range(5) يُنتج أرقام من 0 إلى 4", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
       { q: "ما ناتج: <code>for x in \"Hi\": print(x)</code>؟", type: "mcq", options: ["H ثم i", "Hi", "خطأ", "لا شيء"], correct: 0, difficulty: "easy" },
       { q: "كم مرة تعمل: <code>for i in range(1, 5)</code>؟", type: "mcq", options: ["4 مرات", "5 مرات", "3 مرات", "6 مرات"], correct: 0, difficulty: "easy" },
-      { q: "ما ناتج: <code>sum = 0; for i in range(4): sum += i; print(sum)</code>؟", type: "mcq", options: ["6", "10", "4", "0"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>sum = 0\nfor i in range(4):\n    sum += i\nprint(sum)</div>", type: "mcq", options: ["6", "10", "4", "0"], correct: 0, difficulty: "medium" },
       { q: "ما ناتج: <code>for i in range(2, 8, 2): print(i)</code>؟", type: "mcq", options: ["2 4 6", "2 4 6 8", "0 2 4 6", "2 4"], correct: 0, difficulty: "medium" },
       { q: "يمكن استخدام break لإيقاف الحلقة", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "medium" },
-      { q: "ما ناتج: <code>for i in range(5): if i == 3: break; print(i)</code>؟", type: "mcq", options: ["0 1 2", "0 1 2 3", "0 1 2 3 4", "3"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>for i in range(5):\n    if i == 3:\n        break\n    print(i)</div>", type: "mcq", options: ["0 1 2", "0 1 2 3", "0 1 2 3 4", "3"], correct: 0, difficulty: "medium" },
       { q: "ما الفرق بين break و continue؟", type: "mcq", options: ["break توقف الحلقة و continue تتخطى التكرار الحالي", "لا فرق", "continue توقف الحلقة و break تتخطى", "كلاهما يوقف الحلقة"], correct: 0, difficulty: "hard" }
     ]
   },
@@ -1216,7 +1216,7 @@ const allLectures = [
       { q: "ما ناتج: <code>i = 1; while i < 10: i *= 2; print(i)</code>؟", type: "mcq", options: ["2 4 8 16", "1 2 4 8", "2 4 8", "1 2 4 8 16"], correct: 0, difficulty: "medium" },
       { q: "يمكن استخدام while مع else", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "medium" },
       { q: "ما الفرق الأساسي بين for و while؟", type: "mcq", options: ["for لعدد معروف و while لشرط", "لا فرق", "while أسرع من for", "for تستخدم مع الأرقام فقط"], correct: 0, difficulty: "medium" },
-      { q: "ما الناتج: <code>i = 0; while i < 5: i += 1; if i == 3: continue; print(i)</code>؟", type: "mcq", options: ["1 2 4 5", "1 2 3 4 5", "1 2", "0 1 2 4"], correct: 0, difficulty: "hard" }
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>i = 0\nwhile i < 5:\n    i += 1\n    if i == 3:\n        continue\n    print(i)</div>", type: "mcq", options: ["1 2 4 5", "1 2 3 4 5", "1 2", "0 1 2 4"], correct: 0, difficulty: "hard" }
     ]
   },
   // === LECTURE 9: القوائم (Lists) ===
@@ -1278,11 +1278,11 @@ const allLectures = [
       { q: "الكلمة المفتاحية لتعريف دالة هي def", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
       { q: "كيف نعرّف دالة بسيطة؟", type: "mcq", options: ["def hello():", "function hello():", "def hello:", "hello = def():"], correct: 0, difficulty: "easy" },
       { q: "الدالة يمكنها إرجاع قيمة بـ return", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
-      { q: "ما ناتج: <code>def add(a,b): return a+b; print(add(2,3))</code>؟", type: "mcq", options: ["5", "23", "a+b", "خطأ"], correct: 0, difficulty: "easy" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>def add(a, b):\n    return a + b\n\nprint(add(2, 3))</div>", type: "mcq", options: ["5", "23", "a+b", "خطأ"], correct: 0, difficulty: "easy" },
       { q: "يمكن استدعاء الدالة أكثر من مرة", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
-      { q: "ما ناتج: <code>def f(x): return x * 2; print(f(4))</code>؟", type: "mcq", options: ["8", "4", "16", "خطأ"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>def f(x):\n    return x * 2\n\nprint(f(4))</div>", type: "mcq", options: ["8", "4", "16", "خطأ"], correct: 0, difficulty: "medium" },
       { q: "يمكن وضع قيمة افتراضية للمعاملات", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "medium" },
-      { q: "ما ناتج: <code>def greet(name=\"عالم\"): return \"مرحباً \" + name; print(greet())</code>؟", type: "mcq", options: ["مرحباً عالم", "مرحباً name", "خطأ", "مرحباً"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>def greet(name=\"عالم\"):\n    return \"مرحباً \" + name\n\nprint(greet())</div>", type: "mcq", options: ["مرحباً عالم", "مرحباً name", "خطأ", "مرحباً"], correct: 0, difficulty: "medium" },
       { q: "دالة بدون return تُرجع None", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "medium" },
       { q: "ما مفهوم الـ Scope (نطاق المتغير)؟", type: "mcq", options: ["المتغير داخل الدالة لا يُرى خارجها", "المتغير عالمي دائماً", "لا يوجد Scope في بايثون", "كل المتغيرات محلية"], correct: 0, difficulty: "hard" }
     ]
@@ -1330,12 +1330,12 @@ const allLectures = [
       { q: "ما ناتج: <code>a = [1, 2]; a.append(3); print(a)</code>؟", type: "mcq", options: ["[1, 2, 3]", "[1, 2]", "[3, 1, 2]", "خطأ"], correct: 0, difficulty: "easy" },
       { q: "remove() تحذف العنصر بقيمة", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
       { q: "ما ناتج: <code>a = [1, 2, 3]; a.pop(); print(a)</code>؟", type: "mcq", options: ["[1, 2]", "[1, 2, 3]", "[2, 3]", "3"], correct: 0, difficulty: "easy" },
-      { q: "ما ناتج: <code>[1, 3, 2].sort(); print([1, 3, 2])</code>؟", type: "mcq", options: ["[1, 3, 2]", "[1, 2, 3]", "خطأ", "None"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>a = [1, 3, 2]\na.sort()\nprint(a)</div>", type: "mcq", options: ["[1, 2, 3]", "[1, 3, 2]", "خطأ", "None"], correct: 0, difficulty: "medium" },
       { q: "reverse() تعكس ترتيب القائمة", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "medium" },
       { q: "ما ناتج: <code>a = [1, 2]; b = [3, 4]; a.extend(b); print(a)</code>؟", type: "mcq", options: ["[1, 2, 3, 4]", "[1, 2]", "[3, 4]", "خطأ"], correct: 0, difficulty: "medium" },
       { q: "ما ناتج: <code>[1, 2, 2, 3].count(2)</code>؟", type: "mcq", options: ["2", "1", "3", "خطأ"], correct: 0, difficulty: "medium" },
       { q: "ما ناتج: <code>[3, 1, 2].index(1)</code>؟", type: "mcq", options: ["1", "0", "2", "خطأ"], correct: 0, difficulty: "medium" },
-      { q: "ما الفرق بين <code>sort()</code> و <code>sorted()</code>؟", type: "mcq", options: ["sort() تعدل القائمة原地 و sorted() تُرجع قائمة جديدة", "لا فرق", "sorted() تعدل القائمة原地", "sort() تُرجع قائمة جديدة"], correct: 0, difficulty: "hard" }
+      { q: "ما الفرق بين <code>sort()</code> و <code>sorted()</code>؟", type: "mcq", options: ["sort() تعدل القائمة الأصلية و sorted() تُرجع قائمة جديدة", "لا فرق", "sorted() تعدل القائمة الأصلية", "sort() تُرجع قائمة جديدة"], correct: 0, difficulty: "hard" }
     ]
   },
   // === LECTURE 16: معالجة الأخطاء ===
@@ -1345,13 +1345,13 @@ const allLectures = [
     questions: [
       { q: "نستخدم try و except لمعالجة الأخطاء", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
       { q: "ما كتلة الكود التي نضع فيها الكود الذي قد يسبب خطأ؟", type: "mcq", options: ["try", "except", "finally", "catch"], correct: 0, difficulty: "easy" },
-      { q: "ما ناتج: <code>try: print(5/0) except: print(\"خطأ\")</code>؟", type: "mcq", options: ["خطأ", "0", "خطأ في البرنامج", "لا شيء"], correct: 0, difficulty: "easy" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>try:\n    print(5/0)\nexcept:\n    print(\"خطأ\")</div>", type: "mcq", options: ["خطأ", "0", "خطأ في البرنامج", "لا شيء"], correct: 0, difficulty: "easy" },
       { q: "finally تُنفذ دائماً سواء حدث خطأ أم لا", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "easy" },
       { q: "ما نوع خطأ القسمة على صفر؟", type: "mcq", options: ["ZeroDivisionError", "ValueError", "TypeError", "NameError"], correct: 0, difficulty: "medium" },
       { q: "يمكن تحديد نوع الخطأ في except", type: "tf", options: ["صح ✅", "خطأ ❌"], correct: 0, difficulty: "medium" },
-      { q: "ما ناتج: <code>try: x = int(\"abc\") except ValueError: print(\"خطأ\")</code>؟", type: "mcq", options: ["خطأ", "abc", "خطأ في البرنامج", "0"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>try:\n    x = int(\"abc\")\nexcept ValueError:\n    print(\"خطأ\")</div>", type: "mcq", options: ["خطأ", "abc", "خطأ في البرنامج", "0"], correct: 0, difficulty: "medium" },
       { q: "ما نوع خطأ استخدام متغير غير معرّف؟", type: "mcq", options: ["NameError", "ValueError", "TypeError", "IndexError"], correct: 0, difficulty: "medium" },
-      { q: "ما ناتج: <code>try: print(10/2) except: print(\"خطأ\") finally: print(\"تم\")</code>؟", type: "mcq", options: ["5.0 ثم تم", "خطأ ثم تم", "5.0", "تم فقط"], correct: 0, difficulty: "medium" },
+      { q: "ما ناتج هذا الكود؟<div class='code-block'>try:\n    print(10/2)\nexcept:\n    print(\"خطأ\")\nfinally:\n    print(\"تم\")</div>", type: "mcq", options: ["5.0 ثم تم", "خطأ ثم تم", "5.0", "تم فقط"], correct: 0, difficulty: "medium" },
       { q: "لماذا نستخدم معالجة الأخطاء؟", type: "mcq", options: ["لمنع توقف البرنامج", "لجعل الكود أسرع", "لتقليل حجم الكود", "لا فائدة منها"], correct: 0, difficulty: "hard" }
     ]
   },
@@ -1580,6 +1580,7 @@ function startLecture(lectureIndex) {
   gameState.correctCount = 0;
   gameState.wrongCount = 0;
   gameState.totalTimeUsed = 0;
+  gameState.shuffledOptions = {};
   
   document.getElementById('quizLectureHeader').innerHTML = `
     <h2>${allLectures[lectureIndex].emoji} المحاضرة ${lectureIndex + 1}: ${allLectures[lectureIndex].title}</h2>
@@ -1599,12 +1600,25 @@ function startLecture(lectureIndex) {
 }
 
 // ==========================================
+// ===== SHUFFLE HELPER =====
+// ==========================================
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ==========================================
 // ===== LOAD QUESTION =====
 // ==========================================
 function loadQuestion() {
   const lec = allLectures[gameState.currentLecture];
   const q = lec.questions[gameState.currentQuestion];
   const qNum = gameState.currentQuestion + 1;
+  const isTF = q.type === 'tf';
   
   // Update header
   document.getElementById('currentQNum').textContent = qNum;
@@ -1622,16 +1636,25 @@ function loadQuestion() {
   card.style.animation = 'none';
   card.offsetHeight; // trigger reflow
   card.style.animation = 'slideUp 0.5s ease';
+
+  // Shuffle option order (skip for True/False — keep ✅ then ❌)
+  let orderedOptions;
+  if (isTF) {
+    orderedOptions = q.options.map((text, idx) => ({ text, originalIndex: idx }));
+  } else {
+    const withIndex = q.options.map((text, idx) => ({ text, originalIndex: idx }));
+    orderedOptions = shuffleArray(withIndex);
+  }
+  gameState.shuffledOptions[gameState.currentQuestion] = orderedOptions;
   
   let optionsHTML = '';
   const labels = ['أ', 'ب', 'ج', 'د'];
-  const isTF = q.type === 'tf';
   
-  q.options.forEach((opt, i) => {
-    const label = isTF ? (i === 0 ? '✅' : '❌') : labels[i];
+  orderedOptions.forEach((opt, displayIndex) => {
+    const label = isTF ? (opt.originalIndex === 0 ? '✅' : '❌') : labels[displayIndex];
     optionsHTML += `
-      <button class="option-btn" onclick="selectAnswer(${i})" id="opt${i}">
-        <span class="option-label">${label}</span> ${opt}
+      <button class="option-btn" onclick="selectAnswer(${displayIndex})" id="opt${displayIndex}">
+        <span class="option-label">${label}</span> ${opt.text}
       </button>
     `;
   });
@@ -1686,9 +1709,10 @@ function startTimer() {
 function timeUp() {
   const lec = allLectures[gameState.currentLecture];
   const q = lec.questions[gameState.currentQuestion];
+  const shuffled = gameState.shuffledOptions[gameState.currentQuestion] || [];
   
   // Mark as wrong
-  gameState.answers.push({ questionIndex: gameState.currentQuestion, selected: -1, correct: q.correct, isCorrect: false, timeUsed: TIME_PER_QUESTION });
+  gameState.answers.push({ questionIndex: gameState.currentQuestion, selected: -1, correct: q.correct, isCorrect: false, timeUsed: TIME_PER_QUESTION, shuffledOptions: shuffled });
   gameState.wrongCount++;
   
   showFeedback(false);
@@ -1701,33 +1725,37 @@ function timeUp() {
 // ==========================================
 // ===== SELECT ANSWER =====
 // ==========================================
-function selectAnswer(index) {
+function selectAnswer(displayIndex) {
   const lec = allLectures[gameState.currentLecture];
   const q = lec.questions[gameState.currentQuestion];
+  const shuffled = gameState.shuffledOptions[gameState.currentQuestion];
   
   if (gameState.timer) clearInterval(gameState.timer);
   
   const timeUsed = (Date.now() - gameState.questionStartTime) / 1000;
   gameState.totalTimeUsed += timeUsed;
-  
-  const isCorrect = index === q.correct;
+
+  const originalSelected = shuffled[displayIndex].originalIndex;
+  const isCorrect = originalSelected === q.correct;
+  const correctDisplayIndex = shuffled.findIndex(o => o.originalIndex === q.correct);
   
   // Disable all options
   document.querySelectorAll('.option-btn').forEach(btn => btn.classList.add('disabled'));
   
   // Highlight
-  document.getElementById('opt' + q.correct).classList.add('correct');
+  document.getElementById('opt' + correctDisplayIndex).classList.add('correct');
   if (!isCorrect) {
-    document.getElementById('opt' + index).classList.add('wrong');
+    document.getElementById('opt' + displayIndex).classList.add('wrong');
   }
   
   // Record answer
   gameState.answers.push({
     questionIndex: gameState.currentQuestion,
-    selected: index,
+    selected: originalSelected,
     correct: q.correct,
     isCorrect: isCorrect,
-    timeUsed: timeUsed
+    timeUsed: timeUsed,
+    shuffledOptions: shuffled
   });
   
   if (isCorrect) {
@@ -1833,6 +1861,9 @@ function renderResults(finalScore) {
   gameState.answers.forEach((ans, i) => {
     const q = lec.questions[ans.questionIndex];
     const isCorrect = ans.isCorrect;
+    const displayOpts = (ans.shuffledOptions && ans.shuffledOptions.length)
+      ? ans.shuffledOptions
+      : q.options.map((text, idx) => ({ text, originalIndex: idx }));
     
     reviewHTML += `
       <div class="review-item ${isCorrect ? 'correct' : 'wrong'}" style="animation-delay: ${i * 0.1}s">
@@ -1845,16 +1876,16 @@ function renderResults(finalScore) {
         <div class="review-options">
     `;
     
-    q.options.forEach((opt, j) => {
+    displayOpts.forEach((opt) => {
+      const origIdx = opt.originalIndex;
+      const text = opt.text;
       let cls = 'neutral';
-      if (j === q.correct && j === ans.selected) {
+      if (origIdx === q.correct) {
         cls = 'correct-answer';
-      } else if (j === q.correct) {
-        cls = 'correct-answer';
-      } else if (j === ans.selected && !isCorrect) {
+      } else if (origIdx === ans.selected && !isCorrect) {
         cls = 'wrong-answer';
       }
-      reviewHTML += `<div class="review-option ${cls}">${opt}</div>`;
+      reviewHTML += `<div class="review-option ${cls}">${text}</div>`;
     });
     
     reviewHTML += `</div></div>`;
