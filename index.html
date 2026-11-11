@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>☀️ Sunshine T Academy — منصة تدريب بايثون</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#0d0a1f;--bg1:#171233;--sur:#1e1840;--sur2:#272052;--sur3:#312766;
+  --sun:#ffb020;--sun2:#ff7a1a;--coral:#ff5470;--violet:#a78bfa;--mint:#2dd4bf;--sky:#38bdf8;
+  --ok:#34d399;--bad:#fb7185;--warn:#fbbf24;--info:#60a5fa;
+  --ink:#f7f3ff;--mut:#b9aee6;--line:rgba(255,176,32,.22);--line2:rgba(167,139,250,.25);
+  --r:20px;--sh:0 18px 50px rgba(5,2,20,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',sans-serif;background:var(--bg0);color:var(--ink);min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-3;background:
+  radial-gradient(900px 600px at 85% -10%,rgba(255,122,26,.28),transparent 60%),
+  radial-gradient(800px 600px at 8% 110%,rgba(167,139,250,.22),transparent 60%),
+  radial-gradient(700px 500px at 50% 50%,rgba(45,212,191,.08),transparent 65%),
+  linear-gradient(160deg,var(--bg0),var(--bg1) 55%,#1b1240)}
+body::after{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1.6px);background-size:34px 34px;
+  mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%)}
+.floaters{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.floaters span{position:absolute;font-size:26px;opacity:.16;animation:drift linear infinite;filter:saturate(1.3)}
+@keyframes drift{0%{transform:translateY(20px) rotate(0)}50%{transform:translateY(-26px) rotate(12deg)}100%{transform:translateY(20px) rotate(0)}}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#14102b}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--sun),var(--sun2));border-radius:10px;border:3px solid #14102b}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(var(--sun2),var(--coral))}
+*{scrollbar-width:thin;scrollbar-color:var(--sun) #14102b}
+h1,h2,h3,.baloo{font-family:'Baloo Bhaijaan 2','Tajawal',sans-serif}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+/* ===== Topbar ===== */
+.topbar{position:fixed;top:0;right:0;left:0;z-index:50;display:flex;align-items:center;gap:14px;
+  padding:10px 22px;background:rgba(16,12,38,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .sun{width:44px;height:44px;flex:none}
+.brand b{font-family:'Baloo Bhaijaan 2';font-size:1.15rem;line-height:1.1;background:linear-gradient(90deg,var(--sun),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.brand small{display:block;color:var(--mut);font-size:.72rem;font-weight:700}
+.top-actions{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.chip{display:flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--line2);padding:6px 14px;border-radius:999px;font-weight:700;font-size:.85rem}
+.chip .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--sun),var(--coral));display:grid;place-items:center;font-size:.85rem;color:#241300}
+.iconbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:var(--sur2);color:var(--ink);font-size:1.05rem;display:grid;place-items:center;transition:.2s}
+.iconbtn:hover{transform:translateY(-2px);border-color:var(--sun);box-shadow:0 6px 18px rgba(255,176,32,.25)}
+.sun .rays{transform-origin:60px 60px;animation:spin 26s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ===== Layout ===== */
+main{max-width:1180px;margin:0 auto;padding:96px 20px 60px}
+.screen{display:none;animation:pop .45s cubic-bezier(.2,.9,.3,1.2)}
+.screen.on{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+.card{background:linear-gradient(165deg,var(--sur),var(--sur2));border:1px solid var(--line2);border-radius:var(--r);box-shadow:var(--sh)}
+.btn{border:none;border-radius:14px;padding:13px 26px;font-weight:800;font-size:1rem;transition:.18s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:active{transform:scale(.97)}
+.btn-sun{background:linear-gradient(135deg,var(--sun),var(--sun2));color:#2a1500;box-shadow:0 8px 24px rgba(255,140,26,.35)}
+.btn-sun:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,140,26,.5)}
+.btn-ghost{background:transparent;border:2px solid var(--line2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--sun);color:var(--sun)}
+.btn-mint{background:linear-gradient(135deg,var(--mint),#0ea5a0);color:#032726}
+.btn-coral{background:linear-gradient(135deg,var(--coral),#e11d48);color:#fff}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+/* ===== Register ===== */
+.reg-wrap{max-width:640px;margin:2vh auto 0;text-align:center}
+.reg-hero .sun{width:120px;height:120px;margin:0 auto 6px;display:block;filter:drop-shadow(0 0 30px rgba(255,176,32,.5))}
+.reg-hero h1{font-size:2.3rem;line-height:1.2}
+.reg-hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--sun),var(--coral),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.reg-hero p{color:var(--mut);font-weight:500;margin:8px 0 22px}
+.reg-card{padding:30px;text-align:right}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:800;margin-bottom:8px;font-size:.95rem}
+.field label i{font-style:normal;color:var(--sun)}
+.field input{width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--line2);background:#151030;color:var(--ink);font-size:1.05rem;font-weight:600;transition:.2s}
+.field input:focus{outline:none;border-color:var(--sun);box-shadow:0 0 0 4px rgba(255,176,32,.15)}
+.field input[readonly]{color:var(--mint);border-style:dashed;cursor:default}
+.reg-note{background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.35);border-radius:12px;padding:12px 16px;font-size:.88rem;color:var(--mint);font-weight:700;margin-bottom:20px}
+.reg-badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.reg-badges span{background:var(--sur2);border:1px solid var(--line2);border-radius:999px;padding:6px 14px;font-size:.8rem;font-weight:700;color:var(--mut)}
+/* ===== Home ===== */
+.home-head{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:26px 28px;margin-bottom:26px;position:relative;overflow:hidden}
+.home-head::before{content:"";position:absolute;inset:0;background:radial-gradient(400px 200px at 90% 0,rgba(255,176,32,.18),transparent 70%);pointer-events:none}
+.home-head h2{font-size:1.7rem}
+.home-head p{color:var(--mut);font-weight:600;font-size:.92rem}
+.ring{position:relative;width:92px;height:92px;flex:none;margin-inline-start:auto}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:1.15rem;color:var(--sun)}
+.phase{margin:30px 0 14px;display:flex;align-items:center;gap:12px}
+.phase .tag{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:1.05rem;padding:6px 18px;border-radius:999px;color:#241300}
+.phase .ln{flex:1;height:2px;background:linear-gradient(90deg,var(--line2),transparent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:16px}
+.unit{padding:20px;position:relative;overflow:hidden;transition:.22s;cursor:pointer;text-align:right}
+.unit:hover{transform:translateY(-5px);border-color:var(--sun);box-shadow:0 16px 40px rgba(255,140,26,.2)}
+.unit .ic{font-size:2.1rem;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--line2);margin-bottom:12px}
+.unit h3{font-size:1.12rem;margin-bottom:4px}
+.unit .sub{color:var(--mut);font-size:.8rem;font-weight:600;margin-bottom:14px}
+.unit .foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.unit .qs{font-size:.78rem;font-weight:800;color:var(--sky)}
+.score-badge{font-size:.78rem;font-weight:800;padding:4px 12px;border-radius:999px}
+.sb-new{background:rgba(185,174,230,.14);color:var(--mut)}
+.sb-done{background:rgba(52,211,153,.16);color:var(--ok)}
+.sb-mid{background:rgba(251,191,36,.16);color:var(--warn)}
+.sb-low{background:rgba(251,113,133,.16);color:var(--bad)}
+.unit.next-up{border-color:var(--sun);box-shadow:0 0 0 2px rgba(255,176,32,.35),var(--sh)}
+.unit.next-up::after{content:"⭐ التالي المقترح";position:absolute;top:12px;left:12px;background:linear-gradient(135deg,var(--sun),var(--sun2));color:#2a1500;font-size:.68rem;font-weight:800;padding:4px 10px;border-radius:999px}
+.unit .num{position:absolute;top:14px;left:14px;font-family:'Baloo Bhaijaan 2';font-weight:800;color:rgba(255,255,255,.14);font-size:1.6rem}
+.unit.next-up .num{display:none}
+.done-banner{margin-top:26px;padding:22px 26px;text-align:center;background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(45,212,191,.1));border:1px solid rgba(52,211,153,.4);border-radius:var(--r)}
+.done-banner h3{color:var(--ok);font-size:1.4rem}
+/* ===== Quiz ===== */
+.quiz-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.quiz-top .ttl{display:flex;align-items:center;gap:10px;font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:1.25rem}
+.quiz-top .ttl .ic{font-size:1.6rem}
+.quiz-meta{margin-inline-start:auto;display:flex;gap:8px;align-items:center}
+.pill{background:var(--sur2);border:1px solid var(--line2);border-radius:999px;padding:6px 16px;font-weight:800;font-size:.85rem}
+.pill b{color:var(--sun)}
+.pbar{height:12px;border-radius:999px;background:#141030;border:1px solid var(--line2);overflow:hidden;margin-bottom:22px}
+.pbar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sun),var(--coral),var(--violet));transition:width .45s cubic-bezier(.2,.9,.3,1)}
+.qcard{padding:30px;position:relative;overflow:hidden}
+.qcard::before{content:"";position:absolute;top:0;right:0;left:0;height:5px;background:linear-gradient(90deg,var(--sun),var(--coral),var(--violet),var(--mint))}
+.qnum{display:inline-block;background:rgba(255,176,32,.14);color:var(--sun);font-weight:800;font-size:.8rem;padding:5px 14px;border-radius:999px;margin-bottom:14px}
+.qtext{font-size:1.3rem;font-weight:800;line-height:1.7;margin-bottom:8px}
+.qcode{direction:ltr;text-align:left;background:#0b0820;border:1px solid var(--line2);border-right:4px solid var(--mint);border-radius:12px;padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:.95rem;line-height:1.7;color:#d9f7ef;white-space:pre;overflow-x:auto;margin:14px 0}
+.opts{display:grid;gap:12px;margin-top:18px}
+.opt{display:flex;align-items:center;gap:14px;text-align:right;background:#171236;border:2px solid var(--line2);border-radius:16px;padding:15px 18px;font-size:1.05rem;font-weight:700;color:var(--ink);transition:.16s;position:relative}
+.opt:hover{border-color:var(--violet);transform:translateX(-4px)}
+.opt .ltr{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-family:'Baloo Bhaijaan 2';font-weight:800;background:rgba(167,139,250,.16);color:var(--violet);transition:.16s}
+.opt.sel{border-color:var(--sun);background:rgba(255,176,32,.1);box-shadow:0 0 0 4px rgba(255,176,32,.12)}
+.opt.sel .ltr{background:linear-gradient(135deg,var(--sun),var(--sun2));color:#2a1500}
+.opt code{direction:ltr;font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.07);padding:2px 8px;border-radius:6px;font-size:.92em}
+.quiz-nav{display:flex;align-items:center;gap:12px;margin-top:22px;flex-wrap:wrap}
+.quiz-hint{color:var(--mut);font-size:.82rem;font-weight:600}
+kbd{background:var(--sur3);border:1px solid var(--line2);border-radius:6px;padding:1px 7px;font-family:'JetBrains Mono';font-size:.75rem}
+/* ===== Result ===== */
+.res-hero{padding:30px;text-align:center;position:relative;overflow:hidden;margin-bottom:22px}
+.res-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 260px at 50% -40px,rgba(255,176,32,.25),transparent 70%);pointer-events:none}
+.res-unit{font-weight:800;color:var(--mut);margin-bottom:6px}
+.score-wrap{position:relative;width:190px;height:190px;margin:10px auto}
+.score-wrap svg{transform:rotate(-90deg)}
+.score-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-in .n{font-family:'Baloo Bhaijaan 2';font-weight:800;font-size:3.2rem;line-height:1;color:var(--sun)}
+.score-in .d{color:var(--mut);font-weight:800}
+.grade{font-family:'Baloo Bhaijaan 2';font-size:1.5rem;font-weight:800;margin-top:4px}
+.student-card{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0}
+.sc-item{background:#171236;border:1px solid var(--line2);border-radius:14px;padding:12px 16px;text-align:right}
+.sc-item small{display:block;color:var(--mut);font-weight:700;font-size:.75rem;margin-bottom:3px}
+.sc-item b{font-size:1rem;color:var(--sun)}
+.res-stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.rs{border-radius:14px;padding:10px 22px;font-weight:800}
+.rs.ok{background:rgba(52,211,153,.14);color:var(--ok)}
+.rs.bad{background:rgba(251,113,133,.14);color:var(--bad)}
+.rs.pct{background:rgba(56,189,248,.14);color:var(--sky)}
+.res-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.review-head{display:flex;align-items:center;gap:12px;margin:30px 0 16px}
+.review-head h3{font-size:1.4rem}
+.review-head .ln{flex:1;height:2px;background:linear-gradient(90deg,var(--line2),transparent)}
+.rv{padding:22px;margin-bottom:14px;border-right:5px solid var(--ok)}
+.rv.wrong{border-right-color:var(--bad)}
+.rv.skip{border-right-color:var(--warn)}
+.rv .top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.rv .qn{font-weight:800;color:var(--mut);font-size:.85rem}
+.rv .mark{font-size:.78rem;font-weight:800;padding:4px 12px;border-radius:999px}
+.mk-ok{background:rgba(52,211,153,.16);color:var(--ok)}
+.mk-bad{background:rgba(251,113,133,.16);color:var(--bad)}
+.mk-skip{background:rgba(251,191,36,.16);color:var(--warn)}
+.rv .qt{font-weight:800;font-size:1.08rem;line-height:1.7}
+.rv .opts{margin-top:12px;gap:8px}
+.rv .opt{cursor:default;padding:11px 15px;font-size:.95rem}
+.rv .opt:hover{transform:none;border-color:var(--line2)}
+.rv .opt.correct{border-color:var(--ok);background:rgba(52,211,153,.1)}
+.rv .opt.correct .ltr{background:var(--ok);color:#032726}
+.rv .opt.mine-wrong{border-color:var(--bad);background:rgba(251,113,133,.1)}
+.rv .opt.mine-wrong .ltr{background:var(--bad);color:#fff}
+.rv .opt .tagm{margin-inline-start:auto;font-size:.72rem;font-weight:800}
+.why{margin-top:12px;background:rgba(56,189,248,.09);border:1px solid rgba(56,189,248,.3);border-radius:12px;padding:12px 16px;font-size:.92rem;line-height:1.7;color:#cfeafd}
+.why b{color:var(--sky)}
+/* ===== Misc ===== */
+#fx{position:fixed;inset:0;z-index:90;pointer-events:none;display:none}
+.toast{position:fixed;bottom:24px;right:50%;transform:translateX(50%) translateY(20px);background:var(--sur3);border:1px solid var(--sun);color:var(--ink);padding:12px 24px;border-radius:14px;font-weight:800;z-index:99;opacity:0;transition:.3s;box-shadow:var(--sh)}
+.toast.on{opacity:1;transform:translateX(50%) translateY(0)}
+.modal{position:fixed;inset:0;z-index:80;background:rgba(8,5,22,.75);backdrop-filter:blur(6px);display:none;place-items:center;padding:20px}
+.modal.on{display:grid}
+.modal .box{max-width:420px;width:100%;padding:28px;text-align:center}
+.modal h3{font-size:1.3rem;margin-bottom:10px}
+.modal p{color:var(--mut);font-weight:600;margin-bottom:20px}
+.modal .row{display:flex;gap:10px;justify-content:center}
+@media(max-width:720px){
+  main{padding:84px 14px 40px}
+  .brand small{display:none}
+  .brand b{font-size:.95rem}
+  .chip .nm{display:none}
+  .qtext{font-size:1.12rem}
+  .qcard,.reg-card{padding:22px}
+  .home-head{padding:20px}
+  .score-wrap{width:160px;height:160px}
+}
+@media print{
+  body{background:#fff;color:#111}
+  body::before,body::after,.floaters,.topbar,.res-actions,.quiz-nav,#fx,.toast{display:none!important}
+  main{padding:0;max-width:100%}
+  .card,.rv,.sc-item{background:#fff!important;border:1px solid #ccc!important;box-shadow:none!important;color:#111!important}
+  .rv .qt,.sc-item b,.score-in .n{color:#111!important}
+  .why{background:#f2f7ff!important;color:#234!important}
+  .screen{display:none!important}
+  #scr-result{display:block!important}
+  .rv{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="floaters" id="floaters"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="sun" viewBox="0 0 120 120" aria-hidden="true">
+      <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd257"/><stop offset="1" stop-color="#ff7a1a"/></linearGradient></defs>
+      <g class="rays" stroke="#ffb020" stroke-width="6" stroke-linecap="round">
+        <line x1="60" y1="6" x2="60" y2="22"/><line x1="60" y1="98" x2="60" y2="114"/>
+        <line x1="6" y1="60" x2="22" y2="60"/><line x1="98" y1="60" x2="114" y2="60"/>
+        <line x1="22" y1="22" x2="33" y2="33"/><line x1="87" y1="87" x2="98" y2="98"/>
+        <line x1="98" y1="22" x2="87" y2="33"/><line x1="33" y1="87" x2="22" y2="98"/>
+      </g>
+      <circle cx="60" cy="60" r="27" fill="url(#sg)"/>
+      <circle cx="51" cy="56" r="3.4" fill="#5b2c00"/><circle cx="69" cy="56" r="3.4" fill="#5b2c00"/>
+      <path d="M50 66 Q60 75 70 66" stroke="#5b2c00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div><b>Sunshine T Academy</b><small>منصة تدريب بايثون — المستوى الأول</small></div>
+  </div>
+  <div class="top-actions">
+    <div class="chip" id="studentChip" style="display:none"><span class="av">🧑‍🚀</span><span class="nm" id="chipName"></span></div>
+    <button class="iconbtn" id="soundBtn" title="الصوت">🔊</button>
+    <button class="iconbtn" id="homeBtn" title="الدروس" style="display:none">🏠</button>
+  </div>
+</header>
+
+<main>
+  <!-- ===== Register ===== -->
+  <section class="screen on" id="scr-register">
+    <div class="reg-wrap">
+      <div class="reg-hero">
+        <svg class="sun" viewBox="0 0 120 120" aria-hidden="true">
+          <g class="rays" stroke="#ffb020" stroke-width="6" stroke-linecap="round">
+            <line x1="60" y1="6" x2="60" y2="22"/><line x1="60" y1="98" x2="60" y2="114"/>
+            <line x1="6" y1="60" x2="22" y2="60"/><line x1="98" y1="60" x2="114" y2="60"/>
+            <line x1="22" y1="22" x2="33" y2="33"/><line x1="87" y1="87" x2="98" y2="98"/>
+            <line x1="98" y1="22" x2="87" y2="33"/><line x1="33" y1="87" x2="22" y2="98"/>
+          </g>
+          <circle cx="60" cy="60" r="27" fill="url(#sg)"/>
+          <circle cx="51" cy="56" r="3.4" fill="#5b2c00"/><circle cx="69" cy="56" r="3.4" fill="#5b2c00"/>
+          <path d="M50 66 Q60 75 70 66" stroke="#5b2c00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <h1>أهلاً بيك في <em>تحدّي بايثون</em> 🐍</h1>
+        <p>رحلة عبر منهج المستوى الأول كامل — كل درس فيه 30 سؤال و30 درجة، وفي الآخر تصحيح وتفسير لكل سؤال!</p>
+      </div>
+      <div class="card reg-card">
+        <div class="field"><label>👤 اسم الطالب <i>*</i></label><input id="fName" type="text" maxlength="40" placeholder="اكتب اسمك الثلاثي هنا..." autocomplete="off"></div>
+        <div class="field"><label>🎂 العمر <i>*</i></label><input id="fAge" type="number" min="6" max="99" placeholder="مثال: 12"></div>
+        <div class="field"><label>📅 تاريخ اليوم (تلقائي)</label><input id="fDate" type="text" readonly></div>
+        <div class="reg-note">☀️ بياناتك بتتحفظ على جهازك عشان تقدر تكمّل تقدمك في أي وقت.</div>
+        <button class="btn btn-sun" id="startBtn" style="width:100%;font-size:1.15rem;padding:16px">🚀 يلا نبدأ المغامرة</button>
+      </div>
+      <div class="reg-badges"><span>📚 16 درس</span><span>❓ 480 سؤال</span><span>💡 تفسير لكل سؤال</span><span>🖨️ نتيجة قابلة للطباعة</span></div>
+    </div>
+  </section>
+
+  <!-- ===== Home ===== -->
+  <section class="screen" id="scr-home">
+    <div class="card home-head">
+      <div>
+        <h2 id="welcomeTitle">لوحة الدروس 🗺️</h2>
+        <p>اختار درساً وابدأ التحدي — كل درس 30 سؤال × درجة واحدة. كمّل للدرس اللي بعده على طول!</p>
+      </div>
+      <div class="ring">
+        <svg width="92" height="92"><circle cx="46" cy="46" r="40" stroke="#2a2258" stroke-width="9" fill="none"/>
+        <circle id="ringFill" cx="46" cy="46" r="40" stroke="url(#rg)" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3"/>
+        <defs><linearGradient id="rg"><stop offset="0" stop-color="#ffb020"/><stop offset="1" stop-color="#ff5470"/></linearGradient></defs></svg>
+        <div class="val" id="ringVal">0/16</div>
+      </div>
+    </div>
+    <div id="phases"></div>
+    <div class="done-banner" id="doneBanner" style="display:none">
+      <h3>🏆 أسطوري! أنهيت كل دروس المستوى الأول!</h3>
+      <p style="color:var(--mut);font-weight:700">مجموع درجاتك: <b id="totalScore" style="color:var(--sun)"></b> من 480 — تقدر تعيد أي درس عشان تحسّن نتيجتك.</p>
+    </div>
+    <div style="text-align:center;margin-top:26px"><button class="btn btn-ghost" id="switchStudent">🔄 تغيير الطالب</button></div>
+  </section>
+
+  <!-- ===== Quiz ===== -->
+  <section class="screen" id="scr-quiz">
+    <div class="quiz-top">
+      <div class="ttl"><span class="ic" id="qIcon"></span><span id="qUnitTitle"></span></div>
+      <div class="quiz-meta">
+        <span class="pill">السؤال <b id="qNow">1</b> / 30</span>
+        <span class="pill">✅ أجبت <b id="qAnswered">0</b></span>
+        <button class="iconbtn" id="quitQuiz" title="خروج">✖</button>
+      </div>
+    </div>
+    <div class="pbar"><i id="pFill"></i></div>
+    <div class="card qcard">
+      <span class="qnum" id="qTag"></span>
+      <div class="qtext" id="qText"></div>
+      <pre class="qcode" id="qCode" style="display:none"></pre>
+      <div class="opts" id="qOpts"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-sun" id="nextBtn" disabled>السؤال التالي ⬅</button>
+        <span class="quiz-hint">اختار إجابة الأول — تقدر تستخدم أرقام <kbd>1</kbd>–<kbd>4</kbd> و<kbd>Enter</kbd></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Result ===== -->
+  <section class="screen" id="scr-result">
+    <div class="card res-hero">
+      <div class="res-unit" id="resUnit"></div>
+      <div class="score-wrap">
+        <svg width="190" height="190"><circle cx="95" cy="95" r="84" stroke="#2a2258" stroke-width="14" fill="none"/>
+        <circle id="scoreRing" cx="95" cy="95" r="84" stroke="url(#sg2)" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="527.8"/>
+        <defs><linearGradient id="sg2"><stop offset="0" stop-color="#ffb020"/><stop offset=".6" stop-color="#ff5470"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs></svg>
+        <div class="score-in"><span class="n" id="scoreNum">0</span><span class="d">من 30 درجة</span></div>
+      </div>
+      <div class="grade" id="gradeTxt"></div>
+      <div class="student-card">
+        <div class="sc-item"><small>👤 اسم الطالب</small><b id="rName"></b></div>
+        <div class="sc-item"><small>🎂 العمر</small><b id="rAge"></b></div>
+        <div class="sc-item"><small>📅 التاريخ</small><b id="rDate"></b></div>
+        <div class="sc-item"><small>🏫 الأكاديمية</small><b>Sunshine T Academy ☀️</b></div>
+      </div>
+      <div class="res-stats">
+        <span class="rs ok" id="rOk"></span><span class="rs bad" id="rBad"></span><span class="rs pct" id="rPct"></span>
+      </div>
+      <div class="res-actions">
+        <button class="btn btn-sun" id="nextUnitBtn">الدرس التالي ⬅</button>
+        <button class="btn btn-mint" id="retryBtn">🔄 إعادة الدرس</button>
+        <button class="btn btn-ghost" id="toHomeBtn">🏠 لوحة الدروس</button>
+        <button class="btn btn-ghost" id="printBtn">🖨️ طباعة النتيجة</button>
+      </div>
+    </div>
+    <div class="review-head"><h3>📋 التصحيح والتفسير — كل الأسئلة</h3><div class="ln"></div></div>
+    <div id="reviewBox"></div>
+    <div class="res-actions" style="margin:26px 0">
+      <button class="btn btn-sun" id="nextUnitBtn2">الدرس التالي ⬅</button>
+      <button class="btn btn-ghost" id="toHomeBtn2">🏠 لوحة الدروس</button>
+    </div>
+  </section>
+</main>
+
+<canvas id="fx"></canvas>
+<div class="toast" id="toast"></div>
+<div class="modal" id="quitModal"><div class="card box">
+  <h3>⚠️ متأكد إنك عايز تخرج؟</h3><p>تقدمك في هذا الدرس مش هيتحفظ لو خرجت دلوقتي.</p>
+  <div class="row"><button class="btn btn-coral" id="quitYes">نعم، خروج</button><button class="btn btn-ghost" id="quitNo">لا، أكمّل 💪</button></div>
+</div></div>
+
+<script>
+/* ================= DATA: 16 units × 30 questions ================= */
+const U=[
+{t:"الطباعة print",ic:"🖨️",ph:0,q:[
+["ما وظيفة الأمر print()؟",["إدخال بيانات","عرض البيانات على الشاشة","حفظ ملف","حذف البيانات"],1,"print بتعرض النتائج والمخرجات للمستخدم على الشاشة."],
+["أي سطر يطبع كلمة Hello بشكل صحيح؟",["print(Hello)","print(\"Hello\")","echo \"Hello\"","print Hello"],1,"النص لازم يكون بين علامتي تنصيص داخل أقواس print."],
+["ما ناتج print(5)؟",["5","\"5\"","خطأ","لا شيء"],0,"الأرقام تُطبع كما هي بدون علامات تنصيص."],
+["ما ناتج print(2 + 3)؟",["23","5","2+3","خطأ"],1,"بايثون بتحسب الجمع الأول ثم تطبع النتيجة 5."],
+["ما ناتج print(\"2\" + \"3\")؟",["5","23","خطأ","2 3"],1,"جمع نصين يعني لصقهما معاً (دمج) فيصبح 23."],
+["ما ناتج print(\"Ha\" * 3)؟",["Ha3","HaHaHa","خطأ","Ha Ha Ha"],1,"ضرب النص في رقم يكرره: Ha ثلاث مرات."],
+["ما ناتج print(1, 2, 3) افتراضياً؟",["123","1,2,3","1 2 3","خطأ"],2,"print تفصل بين القيم بمسافة واحدة افتراضياً."],
+["ما وظيفة المعامل sep في print؟",["تغيير الفاصل بين القيم","إنهاء السطر","تكرار الطباعة","حذف الطباعة"],0,"sep بتحدد الفاصل بين القيم، مثل sep=\"-\"."],
+["ما وظيفة المعامل end في print؟",["تغيير الفاصل","تغيير ما يُطبع في نهاية السطر","مسح الشاشة","إيقاف البرنامج"],1,"end بتحدد نهاية السطر (افتراضياً سطر جديد)."],
+["ماذا يطبع print() بدون أي محتوى؟",["خطأ","كلمة None","سطر فارغ","لا شيء أبداً"],2,"print() الفاضية بتنزل سطر جديد فاضي."],
+["ما الذي يبدأ به التعليق (Comment) في بايثون؟",["//","#","<!--","**"],1,"الشارة # تبدأ تعليقاً لا تنفذه بايثون."],
+["ما امتداد ملف بايثون؟",[".py",".python",".pt",".txt"],0,"ملفات بايثون امتدادها .py."],
+["بايثون لغة...",["مترجمة بالكامل مثل C","مفسرة (Interpreter)","لغة آلات فقط","بدون قواعد"],1,"بايثون تُفسر سطراً بسطر عبر Interpreter."],
+["ما ناتج print(\"أنا\", \"بطل\")؟",["أنا بطل","أنا,بطل","أنا+بطل","خطأ"],0,"الفاصل الافتراضي مسافة، فتطبع أنا بطل."],
+["ما ناتج print(10 - 4)؟",["104","6","-6","خطأ"],1,"الطرح يُحسب: 10 ناقص 4 يساوي 6."],
+["هل بايثون تفرق بين print و Print؟",["نعم، حالة الأحرف مهمة","لا، سواء","أحياناً","فقط في النصوص"],0,"بايثون Case-Sensitive، فـ Print بحرف كبير تسبب خطأ."],
+["ما ناتج print(3 * 2 + 1)؟",["9","7","8","خطأ"],1,"الضرب أولاً: 3×2=6 ثم +1 = 7."],
+["كيف تطبع قيمتين بينهما شرطة؟",["print(\"a\"-\"b\")","print(\"a\",\"b\",sep=\"-\")","print(\"a\"+\"-\"+\"b\") فقط","ب و ج صحيحان"],3,"يمكن عبر sep=\"-\" أو عبر دمج النصوص يدوياً."],
+["ما ناتج print(\"x\", end=\"!\") ثم print(\"y\")؟",["x!y","x y","x!\\ny","خطأ"],0,"end=\"!\" تمنع السطر الجديد فتلتصق y فتصبح x!y."],
+["ما الرمز الذي ينزل سطراً جديداً داخل النص؟",["\\n","\\t","\\s","\\b"],0,"\\n تعني سطر جديد (New Line)."],
+["ما الرمز الذي يعمل مسافة Tab؟",["\\n","\\t","\\d","\\w"],1,"\\t تضيف مسافة جدولة (Tab)."],
+["أي جملة صحيحة عن print؟",["دالة مدمجة في بايثون","تحتاج تثبيت مكتبة","تحفظ في ملف","تقرأ من المستخدم"],0,"print دالة Built-in لا تحتاج استيراد."],
+["ما ناتج print(\"Python\"[0])؟",["P","y","Python","خطأ"],0,"الفهرس 0 يعني أول حرف وهو P."],
+["لماذا نضع النص بين علامتي تنصيص؟",["ليعرف أنه نص (String)","للزينة فقط","لأن بايثون تحبQuotes","بدون سبب"],0,"التنصيص يخبر بايثون أن هذه قيمة نصية."],
+["ما ناتج print(4 * \"ab\")؟",["abababab","4ab","خطأ","ab4"],0,"ضرب النص يكرره 4 مرات."],
+["ما أول برنامج شهير يتعلمه المبرمجون؟",["Hello, World!","Game Over","Start","Test"],0,"Hello, World! هو التقليد الأول لكل مبرمج."],
+["ما ناتج print(\"5\" * 2)؟",["10","55","خطأ","5 5"],1,"النص \"5\" مكرر مرتين = 55 وليس عملية حسابية."],
+["هل يمكن طباعة أكثر من قيمة في print واحد؟",["نعم بفواصل","لا، قيمة واحدة فقط","فقط أرقام","فقط نصوص"],0,"نمرر عدة قيم مفصولة بفواصل داخل الأقواس."],
+["ما ناتج print(\"A\" + \" \" + \"B\")؟",["A B","AB","A+B","خطأ"],0,"ندمج A ومسافة وB فتصبح A B."],
+["الأقواس () مع print في بايثون 3 هي...",["إلزامية","اختيارية","ممنوعة","للزينة"],0,"في بايثون 3 لازم أقواس لأن print دالة."]]},
+{t:"المتغيرات Variables",ic:"📦",ph:0,q:[
+["كيف ننشئ متغيراً باسم x قيمته 5؟",["var x = 5","x = 5","int x = 5","declare x = 5"],1,"في بايثون نكتب الاسم ثم = ثم القيمة مباشرة."],
+["ما الفرق بين = و == ؟",["لا فرق","= للتعيين و== للمقارنة","= للمقارنة و== للتعيين","كلاهما مقارنة"],1,"= تخزن قيمة، == تقارن بين قيمتين."],
+["أي اسم متغير صحيح؟",["2name","my-name","my_name","class"],2,"الأسماء تقبل حروفاً وأرقاماً و_ ولا تبدأ برقم ولا تكون كلمة محجوزة."],
+["هل المتغير name يختلف عن Name؟",["نعم","لا","أحياناً","فقط في الأرقام"],0,"بايثون تفرق بين الحروف الكبيرة والصغيرة."],
+["ما ناتج: x = 3 ثم x = 9 ثم print(x)؟",["3","9","12","خطأ"],1,"المتغير يحتفظ بآخر قيمة وُضعت فيه."],
+["ما نوع القيمة 3.14؟",["int","float","str","bool"],1,"الأرقام العشرية نوعها float."],
+["ما نوع القيمة \"12\"؟",["int","float","str","bool"],2,"وجود التنصيص يجعلها نصاً str."],
+["ما نوع القيمة True؟",["int","str","bool","float"],2,"True وFalse نوعهما bool (منطقي)."],
+["ما الدالة التي تكشف نوع المتغير؟",["kind()","type()","data()","check()"],1,"type() ترجع نوع القيمة مثل int أو str."],
+["ما ناتج type(7)؟",["<class 'int'>","<class 'float'>","<class 'str'>","7"],0,"العدد الصحيح 7 نوعه int."],
+["أي اسم متغير غير صحيح؟",["_score","score1","1score","myScore"],2,"لا يجوز أن يبدأ اسم المتغير برقم."],
+["ما ناتج: a=2, b=3 ثم print(a+b)؟",["23","5","خطأ","a+b"],1,"جمع عددين صحيحين يعطي 5."],
+["ماذا يعني x += 4 ؟",["x = x + 4","x = 4","x == 4","حذف x"],0,"+= اختصار لإضافة قيمة للمتغير نفسه."],
+["ما القيمة الخاصة التي تعني لا شيء؟",["Null","None","nil","Empty"],1,"None في بايثون تمثل غياب القيمة."],
+["كيف نكتب قيمة منطقية صحيحة؟",["true","True","TRUE","\"True\" فقط"],1,"القيم المنطقية تبدأ بحرف كبير: True وFalse."],
+["ما ناتج: x=10 ثم x=x+5 ثم print(x)؟",["10","5","15","خطأ"],2,"نضيف 5 للقيمة القديمة 10 فتصبح 15."],
+["أي مما يلي كلمة محجوزة لا تصلح اسماً لمتغير؟",["for","player","score","my_var"],0,"for كلمة محجوزة للحلقات ولا تصلح اسماً."],
+["ما ناتج print(type(\"3.5\"))؟",["<class 'float'>","<class 'str'>","<class 'int'>","خطأ"],1,"التنصيص يجعلها نصاً حتى لو شكلها رقم."],
+["التشبيه الأفضل للمتغير هو...",["صندوق نخزن فيه قيمة","شاشة عرض","مكتبة","حلقة"],0,"المتغير مثل صندوق له اسم ونضع فيه قيمة."],
+["ما ناتج: a,b = 1,2 ثم print(a+b)؟",["12","3","خطأ","1 2"],1,"التعيين المتعدد يخزن 1 في a و2 في b، ومجموعهما 3."],
+["كيف نبدل قيمتي a و b بسهولة؟",["a,b = b,a","a = b فقط","swap(a,b)","لا يمكن"],0,"بايثون تدعم التبديل المباشر a,b = b,a."],
+["ما نوع ناتج 5 + 2.0؟",["int","float","str","bool"],1,"عند خلط int وfloat تكون النتيجة float."],
+["أي اسم يتبع أسلوب snake_case؟",["MyScore","my_score","myScore","My-Score"],1,"snake_case كلمات صغيرة بينها شرطة سفلية."],
+["ما ناتج: name=\"Ali\" ثم print(name)؟",["name","Ali","\"Ali\"","خطأ"],1,"نطبع المتغير بدون تنصيص فتظهر قيمته Ali."],
+["هل يمكن تغيير نوع قيمة المتغير لاحقاً؟",["نعم، بايثون مرنة","لا، النوع ثابت","فقط إلى str","مستحيل"],0,"بايثون ديناميكية: المتغير يمكن أن يحمل أي نوع."],
+["ما ناتج: x=4 ثم x*=3 ثم print(x)؟",["7","12","43","خطأ"],1,"*= تضرب المتغير في 3: 4×3=12."],
+["ما فائدة أسماء المتغيرات الوصفية؟",["تجعل الكود مفهوماً","تبطئ البرنامج","لا فائدة","تلزم بايثون"],0,"أسماء مثل student_age أوضح من x وأسهل للصيانة."],
+["ما ناتج print(bool(0))؟",["True","False","0","خطأ"],1,"الصفر يتحول إلى False منطقياً."],
+["ما ناتج print(bool(\"نص\"))؟",["True","False","خطأ","None"],0,"أي نص غير فارغ يتحول إلى True."],
+["ما الذي يحذف المتغير من الذاكرة؟",["remove x","del x","erase x","x = null"],1,"الكلمة del تحذف المتغير."]]},
+{t:"الإدخال والأنواع والحساب",ic:"🧮",ph:0,q:[
+["ما نوع ما ترجعه input() دائماً؟",["int","float","str","bool"],2,"input ترجع نصاً دائماً حتى لو كتب المستخدم رقماً."],
+["كيف نقرأ رقماً صحيحاً من المستخدم؟",["input()","int(input())","num(input())","read()"],1,"نحوّل النص إلى int باستخدام int(input())."],
+["كيف نقرأ رقماً عشرياً؟",["int(input())","float(input())","decimal()","str(input())"],1,"float() تحول النص إلى عدد عشري."],
+["ما ناتج int(\"25\")؟",["\"25\"","25","خطأ","25.0"],1,"int تحول النص الرقمي إلى عدد صحيح 25."],
+["ماذا يحدث عند int(\"abc\")؟",["0","None","ValueError","\"abc\""],2,"لا يمكن تحويل نص غير رقمي لعدد فيحدث ValueError."],
+["ما ناتج float(\"3.14\")؟",["3","3.14","خطأ","\"3.14\""],1,"float تحول النص إلى العدد العشري 3.14."],
+["ما ناتج str(100)؟",["100","\"100\"","خطأ","100.0"],1,"str تحول العدد إلى نص بين تنصيص."],
+["ما ناتج 10 / 2 في بايثون 3؟",["5","5.0","خطأ","2"],1,"القسمة / ترجع float دائماً حتى لو النتيجة صحيحة."],
+["ما ناتج 7 / 2؟",["3","3.5","4","خطأ"],1,"القسمة العادية تعطي 3.5."],
+["ما ناتج 7 // 2؟",["3.5","3","4","1"],1,"// قسمة صحيحة تهمل الكسر وتعطي 3."],
+["ما ناتج 7 % 2؟",["3","1","0","3.5"],1,"% تعطي باقي القسمة: 7÷2 الباقي 1."],
+["ما ناتج 2 ** 3؟",["6","8","9","5"],1,"** تعني الأس: 2 أس 3 = 8."],
+["ما ناتج 10 % 3؟",["1","3","0","10"],0,"10÷3=3 والباقي 1."],
+["ما ناتج 3 + 4 * 2؟",["14","11","10","خطأ"],1,"الضرب قبل الجمع: 4×2=8 ثم +3=11."],
+["ما ناتج (3 + 4) * 2؟",["11","14","10","خطأ"],1,"الأقواس أولاً: 3+4=7 ثم ×2=14."],
+["ما ناتج \"1\" + \"2\" من input بدون تحويل؟",["3","12","خطأ","1 2"],1,"input نص، فجمع نصين يدمجهما: 12."],
+["ما ناتج abs(-5)؟",["-5","5","0","خطأ"],1,"abs تعطي القيمة المطلقة (بدون إشارة)."],
+["ما ناتج round(3.7)؟",["3","4","3.7","خطأ"],1,"round تقرب لأقرب عدد صحيح: 4."],
+["ما ناتج pow(2, 3)؟",["5","6","8","9"],2,"pow مثل الأس: 2 أس 3 = 8."],
+["ما ناتج max(3, 7, 2)؟",["3","7","2","12"],1,"max ترجع أكبر قيمة وهي 7."],
+["ما ناتج min(3, 7, 2)؟",["3","7","2","0"],2,"min ترجع أصغر قيمة وهي 2."],
+["ما ناتج sum([1, 2, 3])؟",["123","6","3","خطأ"],1,"sum تجمع عناصر القائمة: 1+2+3=6."],
+["كيف نعرف أن العدد زوجي؟",["n % 2 == 0","n / 2 == 0","n // 2 == 0","n ** 2 == 0"],0,"الباقي من القسمة على 2 يساوي صفراً يعني زوجي."],
+["ما ناتج 17 % 5؟",["2","3","5","17"],0,"17÷5=3 والباقي 2."],
+["ما ناتج 2 ** 4؟",["8","16","6","24"],1,"2 أس 4 = 16."],
+["ما ناتج 9 // 2؟",["4.5","4","5","1"],1,"القسمة الصحيحة تهمل الكسر: 4."],
+["لماذا نحوّل input إلى int قبل الحساب؟",["لأن input نص والحساب يحتاج أرقاماً","للزينة","لتسريع الطباعة","بدون سبب"],0,"العمليات الحسابية تحتاج أرقاماً لا نصوصاً."],
+["ما ناتج round(2.5) في بايثون؟",["3","2","2.5","خطأ"],1,"بايثون تقرب للأقرب الزوجي: 2.5 تصبح 2."],
+["ما ناتج 100 // 30؟",["3.33","3","4","30"],1,"القسمة الصحيحة: 100÷30=3 والباقي مهمل."],
+["ما ناتج float(\"10\") + 5؟",["105","15.0","خطأ","10.05"],1,"float(\"10\")=10.0 ثم +5 = 15.0."]]},
+{t:"الشروط if / elif / else",ic:"🚦",ph:0,q:[
+["ما الرمز الذي يقارن بين قيمتين؟",["=","==","=>","equals"],1,"== للمقارنة، أما = فللتعيين."],
+["ما معنى != ؟",["يساوي","لا يساوي","أكبر من","تعيين"],1,"!= تعني لا يساوي."],
+["متى يُنفَّذ الكود داخل if؟",["دائماً","إذا كان الشرط True","إذا كان False","أبداً"],1,"if تنفذ الكتلة فقط عندما يكون الشرط صحيحاً."],
+["ما الكلمة التي تعني وإلا؟",["elif","else","or","then"],1,"else تنفذ عندما تفشل كل الشروط السابقة."],
+["ما وظيفة elif؟",["شرط إضافي بديل","إنهاء البرنامج","طباعة","حلقة"],0,"elif تفحص شرطاً إضافياً إذا فشل ما قبله."],
+["ما الرمز الإلزامي بعد الشرط؟",[";",":",".",","],1,"نضع نقطتين : بعد الشرط لفتح الكتلة."],
+["كم مسافة نزيح الكود داخل if (المعتاد)؟",["2","4","8","0"],1,"المعتاد 4 مسافات (Indentation)."],
+["ما ناتج True and False؟",["True","False","None","خطأ"],1,"and تحتاج الطرفين صحيحين، أحدهما False فالنتيجة False."],
+["ما ناتج True or False؟",["True","False","None","خطأ"],0,"or يكفي طرف واحد صحيح فالنتيجة True."],
+["ما ناتج not True؟",["True","False","1","خطأ"],1,"not تعكس القيمة: True تصبح False."],
+["ما ناتج 5 > 3 and 2 > 1؟",["True","False","خطأ","5"],0,"الشرطان صحيحان فـ and تعطي True."],
+["ما ناتج 10 >= 10؟",["True","False","10","خطأ"],0,"أكبر من أو يساوي: 10 يساوي 10 فالنتيجة True."],
+["ما ناتج \"a\" == \"A\"؟",["True","False","خطأ","a"],1,"بايثون تفرق بين الحروف الكبيرة والصغيرة فالنتيجة False."],
+["ما ناتج: x=7; if x>10: \"A\" elif x>5: \"B\" else: \"C\"؟",["A","B","C","A B"],1,"أول شرط صحيح هو x>5 فتطبع B."],
+["هل يمكن استخدام else بدون if؟",["نعم","لا","أحياناً","فقط مع elif"],1,"else يجب أن تتبع if أو elif."],
+["ما ناتج 5 != 5؟",["True","False","5","0"],1,"5 يساوي 5 فـ لا يساوي تكون False."],
+["ما العامل الذي يعني و؟",["or","and","not","&&"],1,"and هي كلمة بايثون للمنطق و."],
+["ما ناتج not (3 > 5)؟",["True","False","خطأ","3"],0,"3>5 خطأ=False، وnot تعكسها إلى True."],
+["ماذا نفعل لوضع شرط داخل شرط؟",["Nested if (شروط متداخلة)","حلقة","دالة","مكتبة"],0,"الشروط المتداخلة تعطي قرارات أدق."],
+["ما ناتج: if 5>3: print(\"نعم\")؟",["نعم","لا","خطأ","لا شيء"],0,"الشرط صحيح فتطبع نعم."],
+["في سلسلة elif، كم فرعاً يُنفَّذ؟",["كل الفروع","أول فرع صحيح فقط","آخر فرع","عشوائي"],1,"أول شرط صحيح ينفذ والباقي يُتخطى."],
+["ما ناتج 4 < 2 or 6 > 5؟",["True","False","خطأ","6"],0,"الشرط الثاني صحيح فـ or تعطي True."],
+["ما الكلمة التي تعني لا (عكس الشرط)؟",["and","or","not","xor"],2,"not تعكس نتيجة الشرط."],
+["ما ناتج: x=3; if x>5: print(\"كبير\") else: print(\"صغير\")؟",["كبير","صغير","خطأ","لا شيء"],1,"الشرط فشل فتنفذ else وتطبع صغير."],
+["ما نوع نتيجة أي مقارنة؟",["int","str","bool","float"],2,"المقارنات ترجع True أو False (bool)."],
+["ما ناتج 0 == False؟",["True","False","خطأ","0"],0,"في بايثون الصفر يساوي False منطقياً."],
+["ما فائدة الشروط في الألعاب؟",["اتخاذ قرارات مثل الفوز والخسارة","الطباعة فقط","الحفظ","الرسم"],0,"الشروط تتحكم في منطق اللعبة وقراراتها."],
+["ما ناتج: if not False: print(\"نعم\")؟",["نعم","لا","خطأ","لا شيء"],0,"not False = True فتنفذ الكتلة."],
+["هل يمكن دمج أكثر من شرط بـ and و or معاً؟",["نعم","لا","فقط and","فقط or"],0,"يمكن بناء شروط مركبة من عدة عوامل منطقية."],
+["ما الخطأ في: if x = 5: ؟",["لا خطأ","استخدام = بدل ==","نقص print","نقص أقواس"],1,"داخل الشرط نستخدم == للمقارنة لا = للتعيين."]]},
+{t:"حلقة For Loop",ic:"🔁",ph:1,q:[
+["متى نستخدم for غالباً؟",["عندما نعرف عدد التكرارات","عندما لا نعرف أبداً","للطباعة فقط","للحفظ"],0,"for مثالية للتكرار عدداً محدداً معروفاً."],
+["ما الأرقام التي تولدها range(5)؟",["1..5","0..4","0..5","1..4"],1,"range تبدأ من 0 وتقف قبل الرقم: 0,1,2,3,4."],
+["ما ناتج range(1, 6)؟",["1..6","1..5","0..5","2..6"],1,"من 1 حتى قبل 6 أي 1,2,3,4,5."],
+["ما ناتج range(0, 10, 2)؟",["0,2,4,6,8","0..10","2,4,6,8,10","1,3,5,7,9"],0,"الخطوة 2 تعطي الأرقام الزوجية من 0 لـ8."],
+["كم مرة تتكرر for i in range(3)؟",["2","3","4","لا نهائي"],1,"range(3) تولد 3 قيم فتتكرر 3 مرات."],
+["ما ناتج: for i in range(4): print(i)؟",["1 2 3 4","0 1 2 3","0 1 2 3 4","1 2 3"],1,"تبدأ من 0 وتطبع 0,1,2,3."],
+["ماذا تفعل for على نص؟",["تمر على كل حرف","تحذف النص","تعكسه","تطبعه مرة واحدة"],0,"for text تمر حرفاً حرفاً على النص."],
+["ماذا تفعل for على قائمة؟",["تمر على كل عنصر","تحذف القائمة","ترتبها","تجمعها فقط"],0,"for تمر على عناصر القائمة عنصراً عنصراً."],
+["ما ناتج range(5, 0, -1)؟",["5,4,3,2,1","5..0","4,3,2,1,0","خطأ"],0,"خطوة سالبة تعد تنازلياً من 5 حتى 1."],
+["ما ناتج range(10, 0, -2)؟",["10,8,6,4,2","10..0","8,6,4,2,0","خطأ"],0,"تنازلي بخطوة 2: 10,8,6,4,2."],
+["ما وظيفة break داخل الحلقة؟",["تخطي تكرار واحد","إيقاف الحلقة والخروج منها","إعادة الحلقة","طباعة"],1,"break تكسر الحلقة وتخرج منها فوراً."],
+["ما وظيفة continue؟",["إيقاف الحلقة","تخطي التكرار الحالي وإكمال التالي","حذف المتغير","إنهاء البرنامج"],1,"continue تتخطى بقية التكرار الحالي وتنتقل للتالي."],
+["ما ناتج: for ch in \"CAT\": print(ch)؟",["CAT","C ثم A ثم T","خطأ","C A T في سطر"],1,"تمر على الحروف وتطبع كل حرف في سطر."],
+["كم تكراراً في حلقتين متداخلتين range(3) وrange(4)؟",["7","12","3","4"],1,"التكرار الكلي 3×4=12."],
+["ما ناتج: total=0; for i in range(1,4): total+=i; print(total)؟",["3","6","10","خطأ"],1,"1+2+3=6."],
+["ما ناتج range(0)؟",["0","لا قيم (فارغة)","خطأ","0..1"],1,"range(0) لا تولد أي قيمة فلا تتكرر الحلقة."],
+["ما ناتج range(2, 2)؟",["2","2,2","فارغة","خطأ"],2,"البداية تساوي النهاية فلا توجد قيم."],
+["ما الرمز بعد سطر for؟",[";",":",".",","],1,"نضع : بعد for لفتح كتلة الحلقة."],
+["ما ناتج: for i in range(1,4): print(i*2)؟",["2 4 6","1 2 3","2 4 6 8","خطأ"],0,"القيم 1,2,3 مضروبة في 2 تعطي 2,4,6."],
+["ماذا يسمى المتغير i في for i in ...؟",["متغير الحلقة (عداد)","ثابت","دالة","مكتبة"],0,"هو متغير يأخذ قيمة جديدة كل تكرار."],
+["ما ناتج: for i in range(3): print(\"*\" * i)؟",["سطر فارغ ثم * ثم **","***","* ** ***","خطأ"],0,"i=0 لا نجوم، i=1 نجمة، i=2 نجمتان."],
+["هل نحتاج range دائماً مع for؟",["لا، يمكن المرور على أي مجموعة","نعم دائماً","فقط مع الأرقام","ممنوع بدونها"],0,"for تعمل على أي iterable مثل نص أو قائمة."],
+["ما فائدة عداد total داخل الحلقة؟",["تجميع المجموع التراكمي","الطباعة","الحذف","الإيقاف"],0,"المجمّع يجمع القيم تكراراً بعد تكرار."],
+["ما ناتج: for i in range(1,6): if i==3: break; print(i)؟",["1 2","1 2 3","1..5","3 فقط"],0,"تطبع 1 و2 ثم تتوقف عند 3 بسبب break."],
+["ما ناتج: for i in range(1,4): if i==2: continue; print(i)؟",["1 3","1 2 3","2 فقط","1"],0,"تتخطى 2 وتطبع 1 و3."],
+["ما ناتج list(range(1, 4))؟",["[1,2,3]","[1,2,3,4]","[0,1,2,3]","خطأ"],0,"تحول المدى إلى قائمة 1,2,3."],
+["أي حلقة تطبع الأرقام الزوجية من 2 لـ10؟",["range(2,11,2)","range(2,10)","range(1,10,2)","range(2,10,2)"],0,"من 2 حتى قبل 11 بخطوة 2: 2,4,6,8,10."],
+["ما ناتج: for i in range(3): print(i, end=\" \")؟",["0 1 2","0\\n1\\n2","1 2 3","خطأ"],0,"end=\" \" تجعل الطباعة في سطر واحد بمسافات."],
+["هل حلقة for على range可能造成حلقة لا نهائية؟",["لا، المدى محدود","نعم دائماً","أحياناً","فقط مع break"],0,"range محددة العدد فلا تصبح لا نهائية."],
+["ما ناتج: s=0; for i in range(1,101): s+=i; print(s)؟",["100","5050","101","خطأ"],1,"مجموع 1 إلى 100 يساوي 5050."]]},
+{t:"حلقة While Loop",ic:"🔄",ph:1,q:[
+["متى تستمر حلقة while؟",["طالما الشرط True","عدداً ثابتاً دائماً","مرة واحدة","أبداً"],0,"while تكرر طالما الشرط صحيح."],
+["متى تتوقف while؟",["عندما يصبح الشرط False","بعد 10 مرات دائماً","عند print","لا تتوقف"],0,"تتوقف عندما يصبح الشرط خاطئاً."],
+["ماذا تعني while True؟",["حلقة لا نهائية حتى break","حلقة مرة واحدة","خطأ","حلقة شرطها False"],0,"الشرط دائماً صحيح فتستمر حتى نكسرها."],
+["كيف نخرج من while True؟",["break","stop","end","exit()"],0,"break تكسر الحلقة وتخرج منها."],
+["ما ناتج: x=1; while x<4: print(x); x+=1؟",["1 2 3","1 2 3 4","2 3 4","1 2"],0,"تطبع 1,2,3 ثم تتوقف عندما x=4."],
+["ماذا يحدث لو نسينا تحديث العداد في while؟",["تتوقف فوراً","حلقة لا نهائية","خطأ Syntax","لا شيء"],1,"الشرط يبقى صحيحاً للأبد فتصبح لا نهائية."],
+["ما الفرق الأساسي بين for وwhile؟",["for لعدد معروف وwhile لشرط","لا فرق","while أسرع","for للشرط"],0,"for للتكرار المحدد وwhile للتكرار الشرطي."],
+["ما ناتج: c=3; while c>0: print(c); c-=1؟",["3 2 1","3 2 1 0","2 1 0","1 2 3"],0,"تطبع 3,2,1 ثم تتوقف عند 0."],
+["كم مرة تُطبع Hello: i=10; while i>5: print(\"Hello\"); i-=2؟",["2","3","4","5"],1,"i=10,8,6 تطبع 3 مرات ثم تتوقف عند 4."],
+["ما ناتج: x=0; while x<3: x+=1; print(x)؟",["0 1 2","1 2 3","3 فقط","0 1 2 3"],2,"print خارج الحلقة فتطبع القيمة النهائية 3 مرة واحدة."],
+["أين يُفحص شرط while؟",["قبل كل تكرار","بعد كل تكرار","مرة واحدة فقط","أبداً"],0,"الشرط يُفحص قبل الدخول في كل تكرار."],
+["ماذا يحدث لو كان الشرط False من البداية؟",["لا تتكرر أبداً","تتكرر مرة","لا نهائية","خطأ"],0,"إذا فشل الشرط بدايةً لا تدخل الحلقة إطلاقاً."],
+["ما ناتج: n=2; while n<=8: print(n); n+=2؟",["2 4 6 8","2 4 6","2..8","4 6 8"],0,"تطبع الزوجية 2,4,6,8 ثم تتوقف عند 10."],
+["كيف نوقف حلقة لا نهائية أثناء التشغيل؟",["Ctrl+C","Enter","Space","Esc"],0,"Ctrl+C يرسل KeyboardInterrupt ويوقف البرنامج."],
+["ما ناتج: x=5; while x>0: x-=1; print(\"Done\")؟",["Done خمس مرات","Done مرة واحدة","خطأ","لا شيء"],1,"print خارج الحلقة فتطبع Done مرة واحدة."],
+["ما الاستخدام الشائع لـwhile مع input؟",["إعادة السؤال حتى إجابة صحيحة","الطباعة","الحذف","الرسم"],0,"نكرر السؤال حتى يدخل المستخدم قيمة صحيحة."],
+["ما نمط while True مع break؟",["حلقة تستمر حتى شرط خروج داخلي","حلقة مرة واحدة","خطأ","حلقة بدون شرط"],0,"نستمر للأبد ونخرج بـbreak عند تحقق شرط."],
+["ما ناتج: total=0; n=1; while n<=5: total+=n; n+=1; print(total)؟",["5","15","10","خطأ"],1,"1+2+3+4+5=15."],
+["ما الذي يجب تغييره داخل while لضمان التوقف؟",["شيء يؤثر في الشرط","اسم المتغير فقط","الطباعة","لا شيء"],0,"لازم نحدث قيمة تؤثر في الشرط ليصبح False."],
+["ما ناتج: x=1; while x<10: x*=2; print(x)؟",["8","16","10","خطأ"],1,"x تتضاعف: 2,4,8,16 ثم تتوقف وتطبع 16."],
+["هل يمكن وضع while داخل for؟",["نعم","لا","فقط العكس","ممنوع"],0,"يمكن تداخل الحلقات بأنواعها."],
+["ما ناتج: i=1; while i<=3: print(i); i+=2؟",["1 3","1 2 3","1 2","2 3"],0,"i=1 ثم 3 ثم 5 فيتوقف، تطبع 1 و3."],
+["ما فائدة while في الألعاب؟",["الاستمرار طالما اللاعب حي/يلعب","الحفظ فقط","الرسم فقط","الطباعة"],0,"مثل while health>0 لاستمرار اللعب."],
+["ما ناتج: x=4; while x>1: print(x); x-=1؟",["4 3 2","4 3 2 1","3 2 1","4 3"],0,"تطبع 4,3,2 وتتوقف عند 1."],
+["أي حلقة تعد من 1 إلى 5؟",["x=1; while x<=5: print(x); x+=1","x=1; while x<5: ...","while x>5: ...","x=5; while x>=1: x+=1"],0,"نبدأ 1 ونزيد حتى نتجاوز 5."],
+["ما ناتج: n=0; while n<3: n+=1; print(n)؟",["0 1 2","1 2 3","3","0 1 2 3"],2,"print بعد الحلقة فتطبع 3 فقط."],
+["ما الشرط المناسب للاستمرار طالما الرصيد موجب؟",["while balance > 0:","while balance < 0:","while balance == 0:","while balance != balance:"],0,"نستمر طالما الرصيد أكبر من صفر."],
+["ما ناتج: x=2; while x!=8: x+=2; print(x)؟",["6","8","2","خطأ"],1,"x: 4,6,8 ثم تتوقف وتطبع 8."],
+["ما الكلمة التي تتخطى تكراراً وتكمل الحلقة؟",["continue","break","pass","stop"],0,"continue تنتقل للتكرار التالي فوراً."],
+["ما ناتج: x=10; while x>=5: print(x); x-=5؟",["10 5","10","10 5 0","5 فقط"],0,"تطبع 10 ثم 5 ثم تتوقف عند 0."]]},
+{t:"القوائم Lists — الأساسيات",ic:"🎒",ph:2,q:[
+["كيف ننشئ قائمة فارغة؟",["{}","[]","()","<>"],1,"القوائم تستخدم الأقواس المربعة []."],
+["ما فهرس أول عنصر في القائمة؟",["1","0","-1","first"],1,"الترقيم يبدأ من 0."],
+["ما ناتج: a=[10,20,30]; print(a[0])؟",["10","20","30","خطأ"],0,"الفهرس 0 هو أول عنصر 10."],
+["كيف نصل لآخر عنصر؟",["a[last]","a[-1]","a[end]","a[last()]"],1,"الفهرس -1 يعني آخر عنصر."],
+["ما ناتج a[-2] لقائمة [1,2,3,4]؟",["3","2","4","خطأ"],0,"-2 يعني العنصر قبل الأخير وهو 3."],
+["ما ناتج len([1,2,3,4])؟",["3","4","5","0"],1,"len تعطي عدد العناصر وهو 4."],
+["ماذا تفعل append(x)؟",["تحذف x","تضيف x في نهاية القائمة","تضيف في البداية","ترتب"],1,"append تضيف عنصراً في النهاية."],
+["ماذا تفعل remove(x)؟",["تحذف أول عنصر قيمته x","تحذف آخر عنصر","تحذف بالفهرس","تفرغ القائمة"],0,"remove تحذف أول ظهور للقيمة x."],
+["ما ناتج: a=[1,2,3]; a[1]=9; print(a)؟",["[1,9,3]","[9,2,3]","[1,2,9]","خطأ"],0,"نعدل العنصر ذي الفهرس 1 ليصبح 9."],
+["هل يمكن خلط أنواع في قائمة واحدة؟",["نعم","لا","فقط أرقام","فقط نصوص"],0,"القائمة تقبل أنواعاً مختلفة معاً."],
+["ما ناتج: a=[1,2]; a.append(3); print(a)؟",["[1,2,3]","[3,1,2]","[1,2]","خطأ"],0,"append تضيف 3 في النهاية."],
+["ماذا تفعل pop() بدون فهرس؟",["تحذف أول عنصر","تحذف آخر عنصر وترجعه","تفرغ القائمة","لا شيء"],1,"pop() تحذف وترجع آخر عنصر."],
+["ماذا تفعل pop(0)؟",["تحذف آخر عنصر","تحذف أول عنصر وترجعه","تحذف الكل","تضيف"],1,"pop(0) تحذف وترجع العنصر الأول."],
+["ماذا تفعل insert(1, \"x\")؟",["تضيف x في الفهرس 1","تحذف الفهرس 1","تستبدل الفهرس 1","تضيف في النهاية"],0,"insert تضيف عنصراً في موقع محدد."],
+["كيف نتحقق أن \"a\" موجود في القائمة؟",["\"a\" in list","list.has(\"a\")","list.contains(\"a\")","exists(\"a\")"],0,"العامل in يفحص وجود عنصر."],
+["ما ناتج: for x in [1,2,3]: print(x)؟",["1 2 3 كل في سطر","[1,2,3]","3 فقط","خطأ"],0,"for تطبع كل عنصر في سطر مستقل."],
+["ماذا يحدث عند a[10] لقائمة من 3 عناصر؟",["None","0","IndexError","يضيف عنصر"],2,"الفهرس خارج النطاق يسبب IndexError."],
+["ماذا يحدث عند remove لقيمة غير موجودة؟",["لا شيء","ValueError","IndexError","يحذف الكل"],1,"remove لقيمة غير موجودة تسبب ValueError."],
+["ما ناتج [1,2] + [3,4]؟",["[1,2,3,4]","[4,6]","خطأ","[[1,2],[3,4]]"],0,"+ تدمج قائمتين في واحدة."],
+["ما ناتج [1,2] * 3؟",["[3,6]","[1,2,1,2,1,2]","خطأ","[1,2,3]"],1,"* تكرّر القائمة 3 مرات."],
+["ما ناتج list(range(3))؟",["[0,1,2]","[1,2,3]","[0,1,2,3]","خطأ"],0,"range(3) تولد 0,1,2 وتتحول لقائمة."],
+["ما ناتج sum([2,4,6])؟",["246","12","6","خطأ"],1,"sum تجمع العناصر: 2+4+6=12."],
+["ما ناتج max([3,9,1])؟",["3","9","1","13"],1,"max ترجع أكبر عنصر 9."],
+["ما ناتج min([3,9,1])؟",["3","9","1","0"],2,"min ترجع أصغر عنصر 1."],
+["ما ناتج: a=[[1,2],[3,4]]; print(a[1][0])؟",["1","2","3","4"],2,"a[1] هي [3,4] وعنصرها الأول 3."],
+["ما ناتج: a=[1,2,3]; print(a[1])؟",["1","2","3","خطأ"],1,"الفهرس 1 هو العنصر الثاني 2."],
+["التشبيه الأفضل للقائمة هو...",["طابور/شنطة فيها عناصر مرتبة","رقم واحد","نص فقط","شرط"],0,"القائمة مثل طابور عناصر مرتبة لكل منها فهرس."],
+["ما ناتج: a=[]; a.append(5); a.append(7); print(len(a))؟",["0","1","2","12"],2,"أضفنا عنصرين فأصبح الطول 2."],
+["ما ناتج: a=[5,10,15]; a.remove(10); print(a)؟",["[5,15]","[5,10]","[10,15]","خطأ"],0,"حذفنا القيمة 10 فبقي [5,15]."],
+["ما ناتج: a=[1,2,3]; print(2 in a)؟",["True","False","2","خطأ"],0,"القيمة 2 موجودة فالنتيجة True."]]},
+{t:"القواميس Dictionaries",ic:"📖",ph:2,q:[
+["كيف ننشئ قاموساً فارغاً؟",["[]","{}","()","<>"],1,"القواميس تستخدم الأقواس المعقوفة {}."],
+["كيف نخزن البيانات في القاموس؟",["فهرس رقمي","مفتاح وقيمة Key:Value","عناصر فقط","نص واحد"],1,"القاموس يخزن أزواج مفتاح:قيمة."],
+["ما ناتج: d={\"name\":\"Ali\"}; print(d[\"name\"])؟",["name","Ali","خطأ","None"],1,"نصل للقيمة عبر المفتاح name."],
+["ماذا ترجع d.get(\"x\") إذا لم يوجد المفتاح؟",["KeyError","None","0","\"\""],1,"get آمنة وترجع None عند غياب المفتاح."],
+["ما فائدة get(\"x\", \"افتراضي\")؟",["ترجع قيمة افتراضية عند الغياب","تحذف المفتاح","تضيف المفتاح","خطأ"],0,"تحدد قيمة بديلة إذا لم يوجد المفتاح."],
+["كيف نضيف مفتاحاً جديداً؟",["d.add(k,v)","d[k]=v","d.append(k,v)","d.insert(k,v)"],1,"نكتب d[المفتاح]=القيمة."],
+["كيف نعدل قيمة مفتاح موجود؟",["d[k]=قيمة جديدة","d.edit(k)","d.update(k)","لا يمكن"],0,"نفس صيغة الإضافة تعدل القيمة إن كان المفتاح موجوداً."],
+["كيف نحذف مفتاحاً؟",["del d[k]","d.remove(k)","d.delete(k)","d.erase(k)"],0,"del d[k] تحذف المفتاح وقيمته."],
+["ماذا تفعل d.pop(k)؟",["تحذف وترجع القيمة","تحذف بدون إرجاع","تضيف","ترتب"],0,"pop تحذف المفتاح وترجع قيمته."],
+["ماذا ترجع d.keys()؟",["كل المفاتيح","كل القيم","كل الأزواج","العدد"],0,"keys() ترجع مجموعة المفاتيح."],
+["ماذا ترجع d.values()؟",["المفاتيح","القيم","الأزواج","الطول"],1,"values() ترجع مجموعة القيم."],
+["ماذا ترجع d.items()؟",["المفاتيح","القيم","أزواج (مفتاح،قيمة)","العدد"],2,"items() ترجع الأزواج معاً وهي الأفضل للتكرار."],
+["ما ناتج len({\"a\":1,\"b\":2})؟",["1","2","3","4"],1,"عدد الأزواج هو 2."],
+["كيف نتحقق من وجود مفتاح؟",["\"k\" in d","d.has(\"k\")","d.contains(\"k\")","exists(d,\"k\")"],0,"العامل in يفحص وجود المفتاح."],
+["ماذا يحدث عند d[\"missing\"] لمفتاح غير موجود؟",["None","0","KeyError","يضيفه"],2,"الوصول المباشر لمفتاح غائب يسبب KeyError."],
+["ما ناتج: for k in d: print(k)؟",["المفاتيح","القيم","الأزواج","خطأ"],0,"التكرار المباشر على القاموس يمر على المفاتيح."],
+["ما ناتج: for k,v in d.items(): print(k,v)؟",["مفتاح وقيمة كل سطر","المفاتيح فقط","القيم فقط","خطأ"],0,"items تعطي المفتاح والقيمة معاً."],
+["هل يمكن أن تكون قيمة القاموس قائمة؟",["نعم","لا","فقط أرقام","فقط نصوص"],0,"القيمة يمكن أن تكون أي نوع حتى قائمة أو قاموس."],
+["ما ناتج: d={\"a\":{\"b\":5}}; print(d[\"a\"][\"b\"])؟",["5","a","b","خطأ"],0,"قاموس متداخل: نصل b داخل a فتظهر 5."],
+["ما هو List of Dictionaries؟",["قائمة كل عنصر فيها قاموس","قاموس مفاتيحه قوائم","نص","رقم"],0,"نمط شائع لتمثيل سجلات مثل قائمة طلاب."],
+["ماذا يحدث لو كررنا نفس المفتاح؟",["خطأ","القيمة الأخيرة تستبدل السابقة","يحتفظ بالاثنين","يحذف القاموس"],1,"المفاتيح فريدة، وآخر قيمة تفوز."],
+["ما ناتج: d={\"x\":1}; d[\"x\"]=9; print(d[\"x\"])؟",["1","9","19","خطأ"],1,"عدلنا قيمة المفتاح x إلى 9."],
+["ما الفرق بين القائمة والقاموس؟",["القائمة بالفهرس والقاموس بالمفتاح","لا فرق","القاموس بالفهرس","كلاهما بالمفتاح"],0,"القائمة تصل بالرقم، القاموس يصل بالاسم/المفتاح."],
+["التشبيه الأفضل للقاموس هو...",["دفتر عناوين اسم→رقم","طابور","مسطرة","حلقة"],0,"مثل دفتر عناوين: تبحث بالاسم لتجد الرقم."],
+["ما ناتج: d={\"a\":1,\"b\":2}; print(sum(d.values()))؟",["3","12","ab","خطأ"],0,"مجموع القيم 1+2=3."],
+["ما ناتج: d={}; d[\"n\"]=5; print(len(d))؟",["0","1","5","خطأ"],1,"أضفنا مفتاحاً واحداً فأصبح الطول 1."],
+["ما ناتج: d={\"a\":1}; print(\"a\" in d)؟",["True","False","1","خطأ"],0,"المفتاح a موجود فالنتيجة True."],
+["ما ناتج: d={\"a\":1}; d.pop(\"a\"); print(len(d))؟",["1","0","خطأ","a"],1,"حذفنا المفتاح الوحيد فأصبح القاموس فارغاً."],
+["ما ناتج: d={\"a\":1}; print(d.get(\"z\",0))؟",["None","0","1","خطأ"],1,"المفتاح غائب فترجع القيمة الافتراضية 0."],
+["لماذا نستخدم القواميس؟",["لتخزين بيانات لها أسماء/أوصاف","للأرقام فقط","للرسم","للطباعة"],0,"مثالية للبيانات الوصفية مثل بيانات طالب أو منتج."]]},
+{t:"النصوص Strings",ic:"🔤",ph:2,q:[
+["ما ناتج \"hello\".upper()؟",["hello","HELLO","Hello","خطأ"],1,"upper تحول كل الحروف إلى كبيرة."],
+["ما ناتج \"HELLO\".lower()؟",["HELLO","hello","Hello","خطأ"],1,"lower تحول كل الحروف إلى صغيرة."],
+["ما ناتج \"ali ahmed\".title()؟",["Ali Ahmed","ALI AHMED","ali ahmed","Ali ahmed"],0,"title تجعل أول حرف من كل كلمة كبيراً."],
+["ما ناتج \"  نص  \".strip()؟",["\"  نص  \"","\"نص\"","خطأ","\"نص  \""],1,"strip تزيل المسافات من الطرفين."],
+["ما ناتج \"a,b,c\".split(\",\")؟",["[\"a\",\"b\",\"c\"]","\"abc\"","خطأ","(\"a\",\"b\",\"c\")"],0,"split تقسم النص إلى قائمة حسب الفاصل."],
+["ما ناتج \"-\".join([\"a\",\"b\"])؟",["\"a-b\"","\"ab\"","[\"a-b\"]","خطأ"],0,"join تربط العناصر بالفاصل المحدد."],
+["ما ناتج \"hello\".replace(\"l\",\"L\")؟",["\"heLLo\"","\"hello\"","\"HeLLo\"","خطأ"],0,"replace تستبدل كل l بـ L."],
+["ما ناتج \"python\".find(\"t\")؟",["2","3","1","-1"],0,"find ترجع فهرس أول ظهور: t في الموقع 2."],
+["ما ناتج \"banana\".count(\"a\")؟",["2","3","1","0"],1,"حرف a تكرر 3 مرات."],
+["ما ناتج \"file.txt\".endswith(\".txt\")؟",["True","False","خطأ",".txt"],0,"endswith تفحص نهاية النص."],
+["ما ناتج \"hello\".startswith(\"he\")؟",["True","False","خطأ","he"],0,"startswith تفحص بداية النص."],
+["ما ناتج len(\"Python\")؟",["5","6","7","Python"],1,"عدد الحروف 6."],
+["ما ناتج \"Python\"[0]؟",["P","y","n","خطأ"],0,"الفهرس 0 هو أول حرف P."],
+["ما ناتج \"Python\"[-1]؟",["P","n","o","خطأ"],1,"الفهرس -1 هو آخر حرف n."],
+["ما ناتج \"Python\"[0:3]؟",["\"Pyt\"","\"Pyth\"","\"yth\"","خطأ"],0,"التقطيع من 0 حتى قبل 3: Pyt."],
+["ما ناتج \"Python\"[::-1]؟",["\"nohtyP\"","\"Python\"","\"Pyt\"","خطأ"],0,"الخطوة -1 تعكس النص بالكامل."],
+["ما ناتج \"Python\"[2:]؟",["\"thon\"","\"Py\"","\"tho\"","خطأ"],0,"من الفهرس 2 حتى النهاية: thon."],
+["ما ناتج \"Py\" + \"thon\"؟",["\"Python\"","\"Py thon\"","خطأ","Py+thon"],0,"+ تدمج نصين."],
+["ما ناتج \"ab\" * 3؟",["\"ababab\"","\"ab3\"","خطأ","\"ab ab ab\""],0,"* تكرّر النص 3 مرات."],
+["كيف نضع متغيراً داخل نص بسهولة؟",["f-string مثل f\"Hi {name}\"","بالجمع فقط","بـ print مرتين","لا يمكن"],0,"f-string تتيح تضمين المتغيرات داخل النص."],
+["ما ناتج: name=\"Ali\"; print(f\"Hi {name}\")؟",["Hi Ali","Hi {name}","خطأ","Hi name"],0,"f-string تستبدل {name} بقيمته."],
+["هل النصوص قابلة للتعديل (Mutable)؟",["نعم","لا (Immutable)","أحياناً","فقط الأولى"],1,"النصوص غير قابلة للتغيير، نُنشئ نصاً جديداً."],
+["ما ناتج \"123\".isdigit()؟",["True","False","خطأ","123"],0,"كل الأحرف أرقام فتكون True."],
+["ما ناتج \"abc\".isalpha()؟",["True","False","خطأ","abc"],0,"كل الأحرف حروف فتكون True."],
+["ما ناتج: for c in \"Hi\": print(c)؟",["H ثم i","Hi","خطأ","H i سطر واحد"],0,"تمر على الحروف وتطبع كلاً في سطر."],
+["ماذا يحدث عند \"5\" + 5؟",["\"55\"","10","TypeError","\"5 5\""],2,"لا يمكن جمع نص مع عدد مباشرة فيحدث TypeError."],
+["ما ناتج \"Hello World\".split()؟",["[\"Hello\",\"World\"]","\"HelloWorld\"","خطأ","[\"Hello World\"]"],0,"split() بدون فاصل تقسم على المسافات."],
+["ما ناتج \"abc\".capitalize()؟",["\"Abc\"","\"ABC\"","\"abc\"","خطأ"],0,"capitalize تجعل أول حرف كبيراً والباقي صغيراً."],
+["ما ناتج \"a\" in \"cat\"؟",["True","False","خطأ","a"],0,"حرف a موجود داخل cat."],
+["التشبيه الأفضل للنص هو...",["عقد خرز كل حرف خرزة","صندوق واحد","رقم","حلقة"],0,"النص سلسلة حروف مرتبة مثل عقد خرز."]]},
+{t:"الدوال Functions",ic:"🛠️",ph:2,q:[
+["ما الكلمة لتعريف دالة؟",["function","def","func","define"],1,"نستخدم def لتعريف الدوال."],
+["كيف نستدعي دالة اسمها greet؟",["greet()","call greet","def greet","run greet"],0,"نستدعي الدالة باسمها متبوعاً بأقواس."],
+["ما هي Parameters؟",["مدخلات الدالة","مخرجاتها","اسمها","تعليقاتها"],0,"المعاملات هي القيم التي تستقبلها الدالة."],
+["ما وظيفة return؟",["طباعة قيمة","إرجاع قيمة من الدالة","حذف الدالة","إيقاف البرنامج"],1,"return ترجع نتيجة لمن استدعى الدالة."],
+["ما الفرق بين print وreturn؟",["print تعرض وreturn ترجع قيمة","لا فرق","return تعرض","print ترجع"],0,"print للعرض على الشاشة، return لإعادة قيمة للكود."],
+["ماذا ترجع دالة بدون return؟",["0","None","\"\"","خطأ"],1,"الدالة بدون return ترجع None تلقائياً."],
+["ما ناتج: def f(x): return x*2; print(f(5))؟",["5","10","25","خطأ"],1,"5×2=10."],
+["ما ناتج: def add(a,b): return a+b; print(add(3,4))؟",["34","7","خطأ","None"],1,"3+4=7."],
+["ما فائدة المعامل الافتراضي def f(x=5)؟",["قيمة تُستخدم إذا لم يُمرر معامل","حذف x","طباعة 5","خطأ"],0,"إذا لم نمرر قيمة تُستخدم القيمة الافتراضية."],
+["ما ناتج: def f(a,b=2): return a+b; print(f(3))؟",["3","5","خطأ","2"],1,"a=3 وb الافتراضي 2 فالمجموع 5."],
+["هل يمكن لدالة إرجاع أكثر من قيمة؟",["نعم كـ tuple","لا","فقط رقم","فقط نص"],0,"return a,b ترجع tuple يمكن تفكيكه."],
+["ما ناتج: def f(): return 1,2; print(f())؟",["(1, 2)","1 2","[1,2]","خطأ"],0,"إرجاع قيمتين يعطي tuple."],
+["أين يكون المتغير المعرّف داخل الدالة؟",["محلي (Local)","عام دائماً","محذوف","ثابت"],0,"متغيرات الدالة محلية داخلها افتراضياً."],
+["ماذا يفعل return في منتصف الدالة؟",["يوقف الدالة ويرجع القيمة","يكمل التنفيذ","يطبع","يحذف"],0,"return ينهي تنفيذ الدالة فوراً."],
+["هل يمكن لدالة استدعاء دالة أخرى؟",["نعم","لا","فقط نفسها","ممنوع"],0,"الدوال يمكن أن تتنادى لتنظيم الكود."],
+["ما الرمز بعد سطر def؟",[";",":",".",","],1,"نضع : بعد تعريف الدالة."],
+["ما أسلوب تسمية الدوال المعتاد؟",["snake_case","PascalCase","UPPER","kebab-case"],0,"الدوال تسمى بأسلوب snake_case."],
+["هل يجب تعريف الدالة قبل استدعائها؟",["نعم","لا","أحياناً","فقط مع return"],0,"لازم تكون الدالة معرّفة قبل استدعائها."],
+["ما الفائدة الرئيسية للدوال؟",["تنظيم الكود وإعادة استخدامه","إبطاء البرنامج","حذف المتغيرات","الطباعة فقط"],0,"نقسم الكود لأجزاء قابلة لإعادة الاستخدام."],
+["ما ناتج: def f(): print(\"Hi\"); f(); f()؟",["Hi مرة","Hi مرتين","خطأ","لا شيء"],1,"استدعيناها مرتين فتطبع Hi مرتين."],
+["ما ناتج: def sq(n): return n*n; print(sq(4))؟",["8","16","4","خطأ"],1,"4×4=16."],
+["هل يمكن تمرير قائمة لدالة؟",["نعم","لا","فقط أرقام","فقط نصوص"],0,"أي نوع يمكن تمريره كمعامل."],
+["ما ناتج: def avg(a,b): return (a+b)/2; print(avg(4,6))؟",["5.0","5","10","خطأ"],0,"(4+6)/2=5.0 والقسمة تعطي float."],
+["ماذا تسمى الدالة داخل الكلاس؟",["Method","Function فقط","Variable","Module"],0,"الدالة التابعة لكلاس تسمى Method."],
+["ما ناتج: def f(x): return x>10; print(f(15))؟",["True","False","15","خطأ"],0,"15>10 صحيح فتطبع True."],
+["ما الأقواس التي تلي اسم الدالة عند التعريف؟",["() إلزامية","[]","{}","اختيارية"],0,"نضع () بعد الاسم وقد تحتوي معاملات."],
+["ما ناتج: def f(): return 5; x=f(); print(x+1)؟",["5","6","خطأ","None"],1,"الدالة أرجعت 5 ثم +1=6."],
+["ما فائدة تقسيم مشروع كبير لدوال؟",["سهولة الفهم والصيانة والاختبار","لا فائدة","زيادة الأخطاء","إبطاء التنفيذ"],0,"الدوال تجعل الكود منظماً ومختبراً."],
+["ما ناتج: def greet(n=\"بطل\"): return \"أهلا \"+n; print(greet())؟",["أهلا بطل","أهلا","خطأ","أهلا n"],0,"استُخدمت القيمة الافتراضية بطل."],
+["ما الذي يحدث عند استدعاء دالة بعدد معاملات خاطئ؟",["TypeError","ValueError","لا شيء","تحذف الدالة"],0,"عدد المعاملات غير المطابق يسبب TypeError."]]},
+{t:"القوائم المتقدمة + Tuples",ic:"🧰",ph:2,q:[
+["ماذا تفعل list.sort()؟",["ترتب القائمة في مكانها","ترجع قائمة جديدة مرتبة","تحذف","تعكس فقط"],0,"sort ترتب القائمة نفسها وتعدلها مباشرة."],
+["ما الفرق بين sort() وsorted()؟",["sort تعدل الأصل وsorted ترجع جديدة","لا فرق","sorted تعدل الأصل","sort ترجع جديدة"],0,"sorted ترجع نسخة مرتبة دون تعديل الأصل."],
+["كيف نرتب تنازلياً؟",["sort(reverse=True)","sort(desc)","sort(-1)","reverse() فقط"],0,"reverse=True تعطي ترتيباً من الأكبر للأصغر."],
+["ماذا تفعل reverse()؟",["تعكس ترتيب القائمة","ترتب تصاعدياً","تحذف","تجمع"],0,"reverse تقلب ترتيب العناصر في مكانها."],
+["ماذا تفعل extend([4,5])؟",["تضيف العناصر فرادى للنهاية","تضيف القائمة كعنصر واحد","تحذف","ترتب"],0,"extend تفرد عناصر القائمة وتضيفها."],
+["ما الفرق بين append وextend؟",["append يضيف عنصراً وextend يفرد عناصر","لا فرق","extend يضيف عنصراً","append يفرد"],0,"append([4,5]) تضيف قائمة كعنصر، extend تضيف 4 و5."],
+["ماذا تفعل insert(2, x)؟",["تضيف x في الفهرس 2","تحذف الفهرس 2","تستبدل","تضيف للنهاية"],0,"insert تضع عنصراً في موقع محدد."],
+["ماذا تفعل clear()؟",["تفرغ القائمة","تحذف آخر عنصر","ترتب","تنسخ"],0,"clear تحذف كل العناصر وتترك [] فارغة."],
+["ماذا تفعل copy()؟",["تنسخ القائمة لقائمة جديدة","تحذف","ترتب","تدمج"],0,"copy تعطي نسخة مستقلة من القائمة."],
+["ماذا ترجع index(x)؟",["فهرس أول ظهور لـx","عدد مرات x","قيمة x","حذف x"],0,"index ترجع موقع أول ظهور للقيمة."],
+["ماذا ترجع count(x)؟",["عدد مرات ظهور x","فهرس x","حذف x","مجموع"],0,"count تعد كم مرة ظهرت القيمة."],
+["ما ناتج [1,2,3,4,5][1:4]؟",["[2,3,4]","[1,2,3]","[2,3,4,5]","[1,2,3,4]"],0,"من الفهرس 1 حتى قبل 4: 2,3,4."],
+["ما ناتج [0,1,2,3,4,5][::2]؟",["[0,2,4]","[1,3,5]","[0,1,2]","خطأ"],0,"خطوة 2 تأخذ عنصراً وتترك آخر."],
+["ما ناتج [1,2,3,4][:3]؟",["[1,2,3]","[1,2,3,4]","[2,3,4]","خطأ"],0,"من البداية حتى قبل 3."],
+["ما ناتج [1,2,3,4][2:]؟",["[3,4]","[1,2]","[2,3,4]","خطأ"],0,"من الفهرس 2 حتى النهاية."],
+["ما ناتج [1,2,3,4][-2:]؟",["[3,4]","[1,2]","[4]","خطأ"],0,"آخر عنصرين."],
+["كيف ننشئ Tuple؟",["(1,2,3)","[1,2,3]","{1,2,3}","<1,2,3>"],0,"الـTuple تستخدم أقواساً دائرية ()."],
+["هل Tuple قابلة للتعديل؟",["نعم","لا (Immutable)","أحياناً","فقط الأولى"],1,"الـTuple ثابتة لا تتغير بعد إنشائها."],
+["ماذا يحدث عند تعديل عنصر Tuple؟",["ينجح","TypeError","ValueError","يحذف"],1,"محاولة التعديل تسبب TypeError."],
+["ما ناتج len((1,2,3))؟",["2","3","4","خطأ"],1,"عدد العناصر 3."],
+["ما ناتج: a,b=(1,2); print(a+b)؟",["12","3","خطأ","(1,2)"],1,"التفكيك يخزن 1 في a و2 في b."],
+["متى نفضل Tuple على List؟",["للبيانات الثابتة كإحداثيات","للتعديل الكثير","للحذف","للإضافة"],0,"الثوابت مثل الإحداثيات تناسب Tuple."],
+["كيف ننشئ Tuple من عنصر واحد؟",["(5,)","(5)","[5]","{5}"],0,"الفاصلة ضرورية: (5,) وإلا فهي مجرد أقواس."],
+["ما ناتج sorted((3,1,2))؟",["[1,2,3]","(1,2,3)","(3,1,2)","خطأ"],0,"sorted ترجع قائمة مرتبة دائماً."],
+["ما ناتج max((4,9,1))؟",["4","9","1","خطأ"],1,"max تعمل على الـTuple أيضاً."],
+["ما ناتج: 2 in (1,2,3)؟",["True","False","خطأ","2"],0,"العنصر 2 موجود فالنتيجة True."],
+["هل يمكن المرور على Tuple بـfor؟",["نعم","لا","فقط List","ممنوع"],0,"for تعمل على أي مجموعة بما فيها Tuple."],
+["كيف نحول List إلى Tuple؟",["tuple(list)","list(tuple)","toTuple()","convert()"],0,"دالة tuple() تحول القائمة إلى Tuple."],
+["كيف نحول Tuple إلى List؟",["list(tup)","tuple(tup)","toList()","cast()"],0,"دالة list() تحول الـTuple إلى قائمة."],
+["ما ناتج: a=[1,2]; b=a; b.append(3); print(a)؟",["[1,2]","[1,2,3]","خطأ","[3]"],1,"b وa يشيران لنفس القائمة فالتعديل يظهر فيهما."]]},
+{t:"مكتبة Random",ic:"🎲",ph:3,q:[
+["كيف نستورد مكتبة العشوائية؟",["import random","include random","using random","require random"],0,"نكتب import random في بداية البرنامج."],
+["ما نطاق random.randint(1,6)؟",["1 إلى 6 شامل الطرفين","1 إلى 5","0 إلى 6","0 إلى 5"],0,"randint تشمل الحدين الأدنى والأعلى."],
+["هل يمكن أن يرجع randint(1,10) القيمة 10؟",["نعم","لا","أحياناً فقط 9","خطأ"],0,"الحد الأعلى مشمول في randint."],
+["ما ناتج random.random()؟",["عدد عشري بين 0 و1","عدد صحيح 0 أو1","عدد بين 1 و10","قائمة"],0,"random() تعطي float في المدى [0,1)."],
+["كيف نختار عنصراً عشوائياً من قائمة؟",["random.choice(list)","random.pick(list)","random.get(list)","random.select(list)"],0,"choice تختار عنصراً واحداً عشوائياً."],
+["ماذا تفعل random.shuffle(list)؟",["تخلط القائمة في مكانها","ترجع قائمة جديدة","ترتب","تحذف"],0,"shuffle تخلط ترتيب القائمة نفسها."],
+["ماذا ترجع shuffle()؟",["القائمة المخلوطة","None","رقم","خطأ"],1,"shuffle تعدل في المكان وترجع None."],
+["كيف نختار 3 عناصر بدون تكرار؟",["random.sample(list,3)","random.choice(list,3)","random.pick3(list)","random.three(list)"],0,"sample تختار عدداً من العناصر دون تكرار."],
+["ما الفرق بين choice وsample؟",["choice عنصر واحد وsample عدة عناصر","لا فرق","sample عنصر واحد","choice عدة"],0,"choice لعنصر واحد، sample لمجموعة بدون تكرار."],
+["هل مكتبة random تحتاج تثبيت؟",["لا، مدمجة مع بايثون","نعم بـpip","نعم بـinstall","فقط في ويندوز"],0,"random مكتبة قياسية مدمجة."],
+["ما ناتج random.randint(1,1)؟",["1 دائماً","خطأ","0 أو1","عشوائي"],0,"الحدان متساويان فالنتيجة 1 دائماً."],
+["كيف نولّد رقماً عشرياً بين 5 و10؟",["random.uniform(5,10)","random.randint(5,10)","random.random(5,10)","random.decimal(5,10)"],0,"uniform تعطي float بين الحدين."],
+["ما فائدة random.seed(5)؟",["تثبيت النتائج العشوائية لتتكرر","حذف العشوائية","تسريع الكود","خلط القائمة"],0,"seed ثابت يعطي نفس تسلسل الأرقام كل تشغيل."],
+["كيف نختار حرفاً عشوائياً من نص؟",["random.choice(\"abc\")","random.letter(\"abc\")","random.char()","لا يمكن"],0,"choice تعمل على النص أيضاً وتختار حرفاً."],
+["ما الاستخدام الأشهر لـrandint(1,6)؟",["محاكاة رمي النرد","حفظ ملف","رسم","طباعة"],0,"النرد له 6 أوجه من 1 إلى 6."],
+["ما ناتج random.choice([\"أ\",\"ب\"])؟",["أ أو ب عشوائياً","أ دائماً","ب دائماً","خطأ"],0,"تختار أحد العنصرين عشوائياً."],
+["كيف نحوّل random() لعدد بين 0 و9؟",["int(random.random()*10)","random()*9","randint(0,9) فقط","لا يمكن"],0,"نضرب في 10 ونأخذ الجزء الصحيح."],
+["ماذا يحدث عند choice لقائمة فارغة؟",["IndexError","None","\"\"","0"],0,"لا عناصر للاختيار فيحدث IndexError."],
+["هل العشوائية تعني نتيجة متوقعة؟",["لا، غير متوقعة","نعم دائماً","نعم مع seed فقط دائماً","دائماً 1"],0,"بدون seed النتائج غير متوقعة."],
+["كم مرة نستورد random في الملف؟",["مرة واحدة في البداية","كل سطر","كل دالة","لا نحتاج"],0,"استيراد واحد في بداية الملف يكفي."],
+["ما ناتج: random.sample([1,2,3],3)؟",["الثلاثة بترتيب عشوائي","[1,2,3] دائماً","عنصر واحد","خطأ"],0,"sample بعدد العناصر يعطيها كلها بترتيب عشوائي."],
+["أي دالة تعطي عدداً صحيحاً عشوائياً؟",["randint","random","uniform","choice"],0,"randint للأعداد الصحيحة."],
+["أي دالة تعطي عدداً عشرياً بين 0 و1؟",["random()","randint()","uniform()","choice()"],0,"random() بدون معاملات تعطي [0,1)."],
+["كيف نحاكي عملة معدنية (صورة/كتابة)؟",["random.randint(0,1)","random.random()","random.choice(0,1)","uniform(0,1)"],0,"0 و1 تمثلان وجهي العملة."],
+["ما فائدة random في الألعاب؟",["أحداث وحظ غير متوقع","الحفظ","الرسم فقط","الطباعة"],0,"تضيف العشوائية والمتعة مثل النرد والكنوز."],
+["ما ناتج random.randint(-3,3)؟",["عدد صحيح بين -3 و3","عدد موجب فقط","خطأ","0"],0,"randint تقبل الأرقام السالبة أيضاً."],
+["هل shuffle ترجع قائمة جديدة؟",["لا، تعدل الأصل وترجع None","نعم","أحياناً","ترجع رقم"],0,"تخلط في المكان ولا ترجع قيمة مفيدة."],
+["كيف نولّد كلمة سر عشوائية من حروف؟",["حلقة مع random.choice","random.password()","randint فقط","لا يمكن"],0,"نختار حرفاً عشوائياً في كل تكرار وندمج."],
+["ما ناتج: random.seed(1); random.randint(1,9) مرتين بنفس_seed؟",["نفس النتيجة","نتيجتان مختلفتان دائماً","خطأ","0"],0,"نفس البذرة تعيد نفس التسلسل."],
+["أين نضع import random؟",["أعلى الملف قبل الاستخدام","داخل print","بعد النهاية","في تعليق"],0,"الاستيراد يكون في البداية قبل أي استخدام."]]},
+{t:"الملفات Files",ic:"💾",ph:3,q:[
+["ما الدالة لفتح ملف؟",["open()","file()","read()","load()"],0,"open() تفتح الملف وتحدد الوضع."],
+["ما وضع القراءة فقط؟",["\"r\"","\"w\"","\"a\"","\"x\""],0,"r اختصار read للقراءة."],
+["ما وضع الكتابة الذي يمسح القديم؟",["\"w\"","\"r\"","\"a\"","\"q\""],0,"w اختصار write ويمسح المحتوى القديم."],
+["ما وضع الإضافة للنهاية؟",["\"a\"","\"w\"","\"r\"","\"e\""],0,"a اختصار append ويضيف دون مسح."],
+["ما الدالة لقراءة كل المحتوى؟",["file.read()","file.get()","file.all()","file.load()"],0,"read() ترجع كل محتوى الملف كنص."],
+["ما الدالة لقراءة سطر واحد؟",["readline()","read()","readlines()","line()"],0,"readline() تقرأ سطراً واحداً."],
+["ما الدالة لقراءة كل الأسطر كقائمة؟",["readlines()","readline()","read()","lines()"],0,"readlines() ترجع قائمة بالأسطر."],
+["ما الدالة للكتابة في ملف؟",["file.write()","file.print()","file.add()","file.save()"],0,"write() تكتب نصاً في الملف."],
+["لماذا نستخدم close()؟",["لإغلاق الملف وتحرير الموارد","للقراءة","للحذف","للطباعة"],0,"close تغلق الملف بعد الانتهاء."],
+["ما ميزة with open(...)؟",["يغلق الملف تلقائياً","أسرع قراءة","يمسح الملف","يقرأ فقط"],0,"with يغلق الملف تلقائياً حتى عند حدوث خطأ."],
+["ماذا يحدث عند قراءة ملف غير موجود؟",["FileNotFoundError","ينشئه","None","0"],0,"الوضع r لملف غائب يسبب FileNotFoundError."],
+["لماذا نحدد encoding=\"utf-8\"؟",["لدعم العربية والرموز بشكل صحيح","لتسريع القراءة","للحذف","بدون سبب"],0,"utf-8 يدعم النصوص العربية بشكل سليم."],
+["ما الرمز لسطر جديد عند الكتابة؟",["\\n","\\t","\\s","/n"],0,"\\n تنزل سطراً جديداً في الملف."],
+["ما الفرق بين w وa؟",["w يمسح وa يضيف","لا فرق","a يمسح","w يضيف"],0,"w يستبدل المحتوى، a يحافظ عليه ويضيف."],
+["كيف نمر على أسطر ملف؟",["for line in file:","while file:","if file:","loop file:"],0,"يمكن التكرار مباشرة على كائن الملف سطراً سطراً."],
+["لماذا نستخدم strip() مع الأسطر؟",["لإزالة \\n والمسافات الزائدة","لحذف الملف","للكتابة","للإغلاق"],0,"الأسطر تأتي بـ\\n فنزيلها بـstrip."],
+["ماذا يحدث عند فتح ملف بوضع w غير موجود؟",["ينشئه","FileNotFoundError","None","خطأ دائم"],0,"الوضع w ينشئ الملف إن لم يوجد."],
+["ما امتداد الملف النصي الشائع؟",[".txt",".py",".exe",".jpg"],0,"الملفات النصية امتدادها .txt غالباً."],
+["كيف نحفظ قاموساً بشكل منظم؟",["json.dump","file.write(dict) مباشرة","print","save()"],0,"مكتبة json تحول القاموس لنص منظم للحفظ."],
+["كيف نقرأ قاموساً محفوظاً بـjson؟",["json.load","json.read","file.dict()","open.dict()"],0,"json.load تعيد القاموس من الملف."],
+["ما المكتبة اللازمة لـjson؟",["import json","import file","import dict","لا شيء"],0,"نستورد json للتعامل مع هذا_Format."],
+["ماذا يحدث عند الكتابة بدون صلاحية؟",["PermissionError","FileNotFoundError","ValueError","لا شيء"],0,"غياب صلاحية الكتابة يسبب PermissionError."],
+["ما فائدة الملفات للبرامج؟",["حفظ البيانات بعد إغلاق البرنامج","الطباعة فقط","الرسم","الحساب"],0,"الملفات ذاكرة دائمة تبقى بعد الإغلاق."],
+["كيف نكتب عدة أسطر دفعة واحدة؟",["writelines(list)","write(list)","print(list)","save(list)"],0,"writelines تكتب قائمة من الأسطر."],
+["ما ناتج: with open(\"a.txt\",\"w\") as f: f.write(\"Hi\") ثم قراءته؟",["Hi","فارغ","خطأ","Hi\\n\\n"],0,"كتبنا Hi ثم قراءتها تعيد Hi."],
+["هل يمكن القراءة والكتابة معاً بوضع واحد؟",["نعم مثل r+ وw+","لا أبداً","فقط r","فقط w"],0,"أوضاع مثل r+ وw+ تسمح بالقراءة والكتابة."],
+["ما الذي يعيده read() لملف فارغ؟",["نص فارغ \"\"","None","خطأ","0"],0,"الملف الفارغ يعيد نصاً فارغاً."],
+["كيف نعرف عدد أسطر ملف؟",["len(file.readlines())","file.count()","file.lines()","count(file)"],0,"readlines تعطي قائمة فنقيس طولها."],
+["أين يُحفظ الملف إذا كتبنا اسمه فقط؟",["في مجلد التشغيل الحالي","سطح المكتب دائماً","مجلد بايثون","الإنترنت"],0,"المسار النسبي يحفظ بجانب مكان تشغيل البرنامج."],
+["ما الطريقة الآمنة الموصى بها للتعامل مع الملفات؟",["with open","open بدون close","حذف الملف","print فقط"],0,"with open هي الأفضل لأنها تضمن الإغلاق."]]},
+{t:"البرمجة كائنية OOP",ic:"🏗️",ph:3,q:[
+["ما الكلمة لتعريف كلاس؟",["class","def","object","struct"],0,"نستخدم class لتعريف القالب."],
+["ما الفرق بين Class وObject؟",["Class قالب وObject نسخة منه","لا فرق","Object قالب","Class نسخة"],0,"الكلاس التصميم والكائن نسخة حقيقية منه."],
+["ما وظيفة __init__؟",["تهيئة الكائن عند إنشائه","حذف الكائن","طباعة الكائن","نسخ الكائن"],0,"المنشئ يُنفذ تلقائياً عند إنشاء الكائن."],
+["ما معنى self؟",["إشارة للكائن الحالي","اسم الكلاس","نوع البيانات","دالة عامة"],0,"self تشير إلى الكائن نفسه داخل الـmethods."],
+["ما هي Attributes؟",["بيانات/خصائص الكائن","دوال الكائن","تعليقات","ملفات"],0,"الخصائص مثل name وhealth تخزن بيانات الكائن."],
+["ما هي Methods؟",["دوال داخل الكلاس","متغيرات","ملفات","مكتبات"],0,"الـmethods هي أفعال الكائن مثل attack."],
+["كيف ننشئ كائناً من كلاس Dog؟",["dog = Dog()","new Dog()","Dog.create()","create Dog"],0,"نستدعي الكلاس كأنه دالة لإنشاء كائن."],
+["ما أسلوب تسمية الكلاسات؟",["PascalCase","snake_case","kebab-case","UPPER"],0,"الكلاسات تبدأ بحرف كبير مثل Player."],
+["كيف نصل لخاصية name لكائن p؟",["p.name","p[name]","p->name","name(p)"],0,"نستخدم النقطة: p.name."],
+["كيف نستدعي method باسم run لكائن p؟",["p.run()","p.run","run.p()","p->run()"],0,"نستخدم النقطة مع أقواس: p.run()."],
+["متى يُنفَّذ __init__؟",["تلقائياً عند إنشاء الكائن","عند استدعائه يدوياً فقط","عند الحذف","أبداً"],0,"يعمل تلقائياً لحظة إنشاء الكائن."],
+["ما أول معامل في أي method؟",["self","this","me","it"],0,"أول معامل دائماً self."],
+["التشبيه الأفضل للكلاس هو...",["مصنع/قالب ينتج نسخاً","صندوق واحد","حلقة","ملف"],0,"الكلاس قالب والكائنات منتجاته."],
+["هل يمكن إنشاء أكثر من كائن من نفس الكلاس؟",["نعم","لا","واحد فقط","اثنان فقط"],0,"يمكن إنشاء عدد غير محدود من الكائنات."],
+["ما ناتج: class D: def __init__(self,n): self.name=n; d=D(\"Rex\"); print(d.name)؟",["Rex","D","name","خطأ"],0,"خزنا الاسم في الخاصية ثم طبعناه."],
+["هل يمكن لـmethod تعديل خاصية الكائن؟",["نعم عبر self","لا","فقط القراءة","ممنوع"],0,"مثل self.health -= 10 داخل method."],
+["ما هي Class Attribute؟",["خاصية مشتركة بين كل الكائنات","خاصية كائن واحد","دالة","ملف"],0,"تُعرّف داخل الكلاس خارج __init__ وتشترك فيها النسخ."],
+["ما هي Instance Attribute؟",["خاصية خاصة بكل كائن","مشتركة للجميع","دالة","كلاس"],0,"تُعرّف عبر self وتختلف من كائن لآخر."],
+["ما فائدة OOP؟",["تنظيم الكود وإعادة الاستخدام","إبطاء البرنامج","حذف البيانات","الطباعة فقط"],0,"تنظم المشاريع الكبيرة في كيانات مترابطة."],
+["هل يمكن عمل قائمة من الكائنات؟",["نعم","لا","فقط كائن واحد","ممنوع"],0,"مثل قائمة لاعبين كل منهم كائن."],
+["ما ناتج: p.health=100; p.health-=20; print(p.health)؟",["80","100","20","خطأ"],0,"100 ناقص 20 يساوي 80."],
+["ماذا يحدث لو نسينا self في تعريف method؟",["خطأ عند الاستدعاء","يعمل عادي","يحذف الكلاس","لا شيء"],0,"نسيان self يسبب TypeError عند الاستدعاء."],
+["هل __init__ إلزامي في كل كلاس؟",["لا، اختياري","نعم دائماً","ممنوع","فقط مع الوراثة"],0,"يمكن كتابة كلاس بدون __init__."],
+["ما الكلمة للوراثة من كلاس آخر؟",["class Child(Parent):","class Child extends Parent","inherit Parent","Child = Parent"],0,"نضع الكلاس الأب بين قوسين بعد اسم الابن."],
+["ما فائدة الوراثة؟",["إعادة استخدام خصائص كلاس أب","حذف الكلاس","الطباعة","الحفظ"],0,"الابن يرث خصائص ودوال الأب ويبني عليها."],
+["كيف نمرر قيماً للخاصية عند الإنشاء؟",["عبر معاملات __init__","عبر print","عبر del","لا يمكن"],0,"نمرر القيم عند إنشاء الكائن فتصل لـ__init__."],
+["ما ناتج: class C: x=5; a=C(); b=C(); print(a.x+b.x)؟",["10","5","خطأ","0"],0,"x خاصية مشتركة قيمتها 5 لكل الكائنات."],
+["ماذا تسمى عملية إنشاء كائن؟",["Instantiation (إنشاء نسخة)","Compilation","Deletion","Iteration"],0,"ننشئ نسخة (instance) من الكلاس."],
+["أي مثال واقعي على كائن؟",["لاعب في لعبة له صحة واسم","رقم فقط","نص فقط","حلقة"],0,"اللاعب كائن له خصائص وأفعال."],
+["ما الذي يميز الكائنين من نفس الكلاس؟",["قيم خصائصهما قد تختلف","لا يمكن اختلافهما","نفس القيم دائماً","نفس الاسم"],0,"كل كائن له قيم خصائصه المستقلة."]]},
+{t:"الرسم بالسلحفاة Turtle",ic:"🐢",ph:3,q:[
+["كيف نستورد مكتبة الرسم؟",["import turtle","include turtle","using turtle","draw turtle"],0,"نكتب import turtle."],
+["كيف ننشئ سلحفاة؟",["t = turtle.Turtle()","t = turtle.new()","turtle.create()","t = Turtle.new()"],0,"Turtle() تنشئ كائن السلحفاة الرسام."],
+["ما الأمر للتحرك للأمام؟",["forward(n)","move(n)","go(n)","walk(n)"],0,"forward تحرك السلحفاة n خطوة للأمام."],
+["ما الأمر للتحرك للخلف؟",["backward(n)","back(n) فقط","reverse(n)","retreat(n)"],0,"backward تحرك للخلف (back اختصار أيضاً)."],
+["ما الأمر للاستدارة يميناً؟",["right(deg)","turnRight(deg)","rotate(deg)","yaw(deg)"],0,"right تدير السلحفاة بالدرجات يميناً."],
+["ما الأمر للاستدارة يساراً؟",["left(deg)","turnLeft(deg)","rotateL(deg)","yawL(deg)"],0,"left تدير السلحفاة يساراً."],
+["ما الأمر لرفع القلم (بدون رسم)؟",["penup()","lift()","stop()","nopen()"],0,"penup ترفع القلم فلا ترسم أثناء الحركة."],
+["ما الأمر لإنزال القلم (الرسم)؟",["pendown()","down()","draw()","pen()"],0,"pendown تعيد القلم للرسم."],
+["ما الأمر لتغيير لون القلم؟",["color(\"red\")","paint(\"red\")","setcolor()","pen_color()"],0,"color تحدد لون القلم."],
+["ما الأمر لتغيير لون الخلفية؟",["turtle.bgcolor()","turtle.background()","bgcolor.set()","screen.color()"],0,"bgcolor تحدد لون خلفية الشاشة."],
+["ما الأمر لتغيير سمك الخط؟",["pensize(n)","width(n) فقط","thick(n)","line(n)"],0,"pensize تحدد سمك القلم (width اختصار)."],
+["ما الأمر لرسم دائرة؟",["circle(r)","draw_circle(r)","oval(r)","round(r)"],0,"circle ترسم دائرة بنصف قطر r."],
+["ما وظيفة turtle.done()؟",["إبقاء نافذة الرسم مفتوحة","مسح الرسم","إغلاق النافذة","حفظ صورة"],0,"done تمنع إغلاق النافذة بعد انتهاء الرسم."],
+["ما زاوية الاستدارة لرسم مربع؟",["90","60","120","45"],0,"المربع زواياه الخارجية 90 درجة."],
+["ما زاوية الاستدارة لمثلث متساوي الأضلاع؟",["120","90","60","180"],0,"360÷3=120 درجة لكل استدارة."],
+["ما زاوية النجمة الخماسية الشهيرة؟",["144","72","90","120"],0,"النجمة الخماسية ترسم باستدارة 144 درجة."],
+["ما قاعدة زاوية أي مضلع منتظم؟",["360 ÷ عدد الأضلاع","180 ÷ عدد الأضلاع","90 دائماً","عدد الأضلاع ×90"],0,"نقسم 360 على عدد الأضلاع."],
+["أي سرعة هي الأسرع؟",["speed(0)","speed(1)","speed(5)","speed(10)"],0,"speed(0) تعني بدون تأخير وهي الأسرع."],
+["ما الأمر للانتقال لموقع بإحداثيات؟",["goto(x,y)","move(x,y)","jump(x,y)","place(x,y)"],0,"goto تنقل السلحفاة إلى إحداثيات محددة."],
+["ما الأمر للعودة لنقطة الأصل؟",["home()","origin()","start()","reset() فقط"],0,"home تعيد السلحفاة للمركز وتتجه يميناً."],
+["ما الأمر لإخفاء شكل السلحفاة؟",["hideturtle()","hide()","invisible()","vanish()"],0,"hideturtle تخفي أيقونة السلحفاة."],
+["كيف نبدأ التعبئة بلون؟",["begin_fill() ثم end_fill()","fill()","start_fill()","color_fill()"],0,"نحيط الشكل بـbegin_fill وend_fill."],
+["هل turtle مكتبة مدمجة؟",["نعم","لا تحتاج pip أبداً","تحتاج تثبيت","فقط ويندوز"],0,"turtle من المكتبات القياسية المدمجة."],
+["ماذا يحدث لو تحركنا والقلم مرفوع؟",["لا يرسم","يرسم عادي","خطأ","يمسح"],0,"مع penup الحركة لا تترك أثراً."],
+["كيف نرسم مربعاً بحلقة؟",["for i in range(4): forward(100); right(90)","forward(400)","circle(100)","right(360)"],0,"4 أضلاع مع استدارة 90 كل مرة."],
+["ما ناتج زاوية سداسي منتظم؟",["60","90","120","45"],0,"360÷6=60 درجة."],
+["التشبيه الأفضل للسلحفاة هو...",["روبوت رسام يحمل قلماً","قلم عادي","مسطرة","ممحاة"],0,"سلحفاة روبوت تنفذ أوامر الحركة والرسم."],
+["لماذا لا يعمل turtle في Colab عادة؟",["لا يوجد Display للرسوميات","Colab لا يدعم بايثون","turtle محذوفة","يحتاج إنترنت"],0,"Colab بيئة سحابية بلا نافذة رسوميات."],
+["ما الأمر لجعل السلحفاة تتجه لزاوية محددة؟",["setheading(deg)","face(deg)","point(deg)","dir(deg)"],0,"setheading تحدد اتجاه السلحفاة بالدرجات."],
+["كيف نرسم حلزوناً ملوناً؟",["حلقة تزيد الطول وتغير اللون كل مرة","forward مرة واحدة","circle فقط","done()"],0,"نكرر مع زيادة الطول وتبديل الألوان لرسم حلزون."]]},
+{t:"معالجة الأخطاء try / except",ic:"🛡️",ph:3,q:[
+["ما وظيفة try/except؟",["معالجة الأخطاء ومنع انهيار البرنامج","تسريع الكود","الطباعة","حذف المتغيرات"],0,"تمسك الأخطاء وتتعامل معها بدل توقف البرنامج."],
+["أين نضع الكود الذي قد يسبب خطأ؟",["داخل try","داخل except","داخل finally","خارج الكل"],0,"الكود المعرض للخطأ يوضع في كتلة try."],
+["أين نضع معالجة الخطأ؟",["داخل except","داخل try","داخل else","داخل if"],0,"except تحتوي ما نفعله عند حدوث الخطأ."],
+["ما نوع خطأ int(\"abc\")؟",["ValueError","TypeError","IndexError","KeyError"],0,"قيمة غير قابلة للتحويل تسبب ValueError."],
+["ما نوع خطأ 10 / 0؟",["ZeroDivisionError","ValueError","TypeError","MathError"],0,"القسمة على صفر تسبب ZeroDivisionError."],
+["ما نوع خطأ \"5\" + 5؟",["TypeError","ValueError","StrError","PlusError"],0,"خلط نص مع عدد في الجمع يسبب TypeError."],
+["ما نوع خطأ قائمة[10] وهي 3 عناصر؟",["IndexError","KeyError","ValueError","RangeError"],0,"فهرس خارج النطاق يسبب IndexError."],
+["ما نوع خطأ قاموس[\"غيرموجود\"]؟",["KeyError","IndexError","ValueError","DictError"],0,"مفتاح غائب يسبب KeyError."],
+["ما نوع خطأ فتح ملف غير موجود؟",["FileNotFoundError","IOError فقط","ValueError","OpenError"],0,"الوضع r لملف غائب يسبب FileNotFoundError."],
+["متى تُنفَّذ كتلة else في try؟",["عند عدم حدوث خطأ","عند حدوث خطأ","دائماً","أبداً"],0,"else تعمل فقط إذا نجحت try بدون أخطاء."],
+["متى تُنفَّذ finally؟",["دائماً سواء حدث خطأ أو لا","عند الخطأ فقط","عند النجاح فقط","أبداً"],0,"finally تعمل في كل الأحوال للتنظيف."],
+["لماذا نحدد نوع الخطأ في except؟",["لنتعامل مع كل خطأ بشكل مناسب","بدون سبب","للزينة","ممنوع التحديد"],0,"تحديد النوع يعطي معالجة دقيقة وواضحة."],
+["ما الصيغة العامة لالتقاط خطأ؟",["except ErrorType:","catch ErrorType:","error ErrorType:","handle ErrorType:"],0,"نستخدم except متبوعة بنوع الخطأ."],
+["هل يمكن أكثر من except لكتلة try واحدة؟",["نعم","لا","فقط واحد","فقط مع finally"],0,"يمكن عدة except لأنواع مختلفة."],
+["ما فائدة while مع try/except؟",["إعادة السؤال حتى إدخال صحيح","الطباعة","الحذف","الرسم"],0,"نكرر المحاولة حتى ينجح الإدخال."],
+["ماذا نفعل بعد نجاح الإدخال داخل while؟",["break للخروج","continue","حذف","طباعة فقط"],0,"break تنهي الحلقة عند النجاح."],
+["ما خطأ الضغط على Ctrl+C أثناء التشغيل؟",["KeyboardInterrupt","ValueError","StopError","CtrlError"],0,"المقاطعة اليدوية تسبب KeyboardInterrupt."],
+["ما نوع خطأ رقم كبير جداً في الحساب؟",["OverflowError","ValueError","BigError","MathError"],0,"تجاوز حدود الأرقام يسبب OverflowError."],
+["ما نوع خطأ الكتابة بدون صلاحية؟",["PermissionError","FileNotFoundError","AccessError","IOError فقط"],0,"غياب الصلاحية يسبب PermissionError."],
+["هل يُنصح بـexcept فارغ بدون تحديد؟",["لا، نحدد النوع","نعم دائماً","أحياناً","إلزامي"],0,"except العام يخفي الأخطاء ويصعّب التصحيح."],
+["ما الذي يلتقط أي خطأ عام؟",["except Exception:","except All:","except Any:","except *:"],0,"Exception هي الفئة الأم لمعظم الأخطاء."],
+["هل try/except يصلح الأخطاء المنطقية؟",["لا، يعالج أخطاء التنفيذ فقط","نعم كل شيء","يصلح المنطق","يحذف الأخطاء"],0,"الأخطاء المنطقية تحتاج تصحيح الكود نفسه."],
+["ما التشبيه الأفضل لـtry/except؟",["درع يحمي البرنامج","محرك","شاشة","مكتبة"],0,"مثل الدرع يمسك الضربة بدل أن تسقط البرنامج."],
+["ما ناتج: try: print(1/0) except ZeroDivisionError: print(\"خطأ\")؟",["خطأ","0","1","انهيار"],0,"القسمة على صفر تُلتقط وتطبع كلمة خطأ."],
+["ما ناتج: try: x=5 except: print(\"e\") else: print(x)؟",["5","e","خطأ","لا شيء"],0,"لا خطأ فتعمل else وتطبع 5."],
+["هل تعمل finally حتى لو حدث return؟",["نعم","لا","أحياناً","فقط مع except"],0,"finally تعمل حتى مع return أو خطأ."],
+["ما فائدة رسائل الخطأ الواضحة للمستخدم؟",["توجيهه لتصحيح إدخاله","إخافة المستخدم","لا فائدة","إيقاف البرنامج"],0,"رسالة مثل أدخل رقماً فقط تساعد المستخدم."],
+["كيف نحوّل إدخالاً لرقم بأمان؟",["try: int(input()) except ValueError","int(input()) بدون حماية","input() فقط","print(input())"],0,"نحمي التحويل بـtry ونعالج ValueError."],
+["ما الكتلة التي تُنفَّذ أولاً؟",["try","except","else","finally"],0,"نبدأ بتنفيذ try ثم ننتقل حسب النتيجة."],
+["ما الفائدة النهائية لمعالجة الأخطاء؟",["برنامج قوي لا ينهار بسهولة","برنامج أبطأ","كود أطول بلا فائدة","حذف الأخطاء نهائياً"],0,"نجعل البرنامج يستمر ويتعامل مع المفاجآت بأمان."]]}
+];
+/* ================= APP ================= */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const KEY="sunshine_py_quiz_v2";
+const PH=[{n:"🌱 المرحلة الأولى — التأسيس",c:"#ffb020"},{n:"🔁 المرحلة الثانية — التكرار",c:"#2dd4bf"},{n:"🧠 المرحلة الثالثة — البيانات والدوال",c:"#a78bfa"},{n:"🚀 المرحلة الرابعة — الاحتراف",c:"#ff5470"}];
+const LTR=["أ","ب","ج","د"];
+let S={student:null,progress:{},muted:false};
+let cur={u:0,q:0,ans:[],sel:null};
+try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw));}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function today(){return new Date().toLocaleDateString("ar-EG",{weekday:"long",year:"numeric",month:"long",day:"numeric"});}
+/* ---- Sound ---- */
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(AC&&AC.state==="suspended")AC.resume();return AC;}
+function tone(f,d,type,g,t){if(S.muted)return;const a=ac();if(!a)return;const o=a.createOscillator(),v=a.createGain();o.type=type||"sine";o.frequency.value=f;v.gain.setValueAtTime(0,a.currentTime+t);v.gain.linearRampToValueAtTime(g||.12,a.currentTime+t+.01);v.gain.exponentialRampToValueAtTime(.0001,a.currentTime+t+d);o.connect(v);v.connect(a.destination);o.start(a.currentTime+t);o.stop(a.currentTime+t+d+.05);}
+const sfx={click(){tone(660,.09,"triangle",.1,0);},pick(){tone(520,.08,"sine",.12,0);tone(780,.1,"sine",.1,.05);},next(){tone(440,.07,"triangle",.09,0);tone(660,.09,"triangle",.09,.06);},finish(){[523,659,784,1047].forEach((f,i)=>tone(f,.22,"triangle",.13,i*.12));},bad(){tone(220,.2,"sawtooth",.07,0);},home(){tone(392,.1,"sine",.1,0);tone(523,.12,"sine",.1,.08);}};
+$("#soundBtn").onclick=()=>{S.muted=!S.muted;save();$("#soundBtn").textContent=S.muted?"🔇":"";if(!S.muted)sfx.click();};
+$("#soundBtn").textContent=S.muted?"🔇":"";
+/* ---- Floaters ---- */
+(function(){const sy=["☀️","","</>","{ }","🐍","★","✦","λ","()","[]"];const f=$("#floaters");for(let i=0;i<14;i++){const s=document.createElement("span");s.textContent=sy[i%sy.length];s.style.left=(Math.random()*96)+"%";s.style.top=(Math.random()*92)+"%";s.style.animationDuration=(9+Math.random()*14)+"s";s.style.animationDelay=(-Math.random()*10)+"s";s.style.fontSize=(16+Math.random()*22)+"px";f.appendChild(s);}})();
+/* ---- Screens ---- */
+function show(id){$$(".screen").forEach(s=>s.classList.remove("on"));$("#scr-"+id).classList.add("on");window.scrollTo({top:0});$("#homeBtn").style.display=(id==="home"||id==="register")?"none":"grid";$("#studentChip").style.display=S.student&&id!=="register"?"flex":"none";if(S.student)$("#chipName").textContent=S.student.name;}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("on"),2200);}
+/* ---- Register ---- */
+$("#fDate").value=today();
+$("#startBtn").onclick=()=>{ac();const n=$("#fName").value.trim(),a=parseInt($("#fAge").value);if(n.length<2){toast("✏️ اكتب اسمك الأول يا بطل!");$("#fName").focus();sfx.bad();return;}if(!a||a<6||a>99){toast("🎂 اكتب عمراً صحيحاً (6–99)");$("#fAge").focus();sfx.bad();return;}S.student={name:n,age:a,date:today()};save();sfx.finish();renderHome();show("home");toast("☀️ أهلاً "+n+"! يلا نبدأ");};
+$("#fName").addEventListener("keydown",e=>{if(e.key==="Enter")$("#startBtn").click();});
+$("#fAge").addEventListener("keydown",e=>{if(e.key==="Enter")$("#startBtn").click();});
+$("#switchStudent").onclick=()=>{S.student=null;save();$("#fName").value="";$("#fAge").value="";$("#fDate").value=today();show("register");};
+$("#homeBtn").onclick=()=>{renderHome();show("home");sfx.home();};
+/* ---- Home ---- */
+function nextSuggested(){for(let i=0;i<U.length;i++){if(!S.progress[i])return i;}return -1;}
+function renderHome(){
+  $("#welcomeTitle").textContent="أهلاً "+(S.student?S.student.name.split(" ")[0]:"")+"! 🗺️ لوحة الدروس";
+  const done=Object.keys(S.progress).length;
+  $("#ringVal").textContent=done+"/16";
+  $("#ringFill").style.strokeDashoffset=251.3*(1-done/16);
+  const sug=nextSuggested();
+  let html="";let lastPh=-1;
+  U.forEach((u,i)=>{
+    if(u.ph!==lastPh){if(lastPh!==-1)html+="</div>";html+=`<div class="phase"><span class="tag" style="background:${PH[u.ph].c}">${PH[u.ph].n}</span><span class="ln"></span></div><div class="grid">`;lastPh=u.ph;}
+    const p=S.progress[i];let badge;
+    if(!p)badge=`<span class="score-badge sb-new">لم يبدأ</span>`;
+    else{const cls=p.best>=24?"sb-done":p.best>=18?"sb-mid":"sb-low";badge=`<span class="score-badge ${cls}">🏅 ${p.best}/30</span>`;}
+    html+=`<div class="card unit ${i===sug?"next-up":""}" data-u="${i}"><span class="num">${String(i+1).padStart(2,"0")}</span><div class="ic">${u.ic}</div><h3>${u.t}</h3><div class="sub">${p?("أفضل نتيجة: "+p.best+"/30 • "+p.attempts+" محاولة"):"30 سؤال بانتظارك"}</div><div class="foot"><span class="qs">❓ 30 سؤال • 30 درجة</span>${badge}</div></div>`;
+  });
+  html+="</div>";$("#phases").innerHTML=html;
+  $$(".unit").forEach(el=>el.onclick=()=>{sfx.click();startUnit(+el.dataset.u);});
+  const all=done===U.length;$("#doneBanner").style.display=all?"block":"none";
+  if(all){let tot=0;Object.values(S.progress).forEach(p=>tot+=p.best);$("#totalScore").textContent=tot;}
+}
+/* ---- Quiz ---- */
+function startUnit(i){cur={u:i,q:0,ans:new Array(30).fill(null),sel:null};$("#qIcon").textContent=U[i].ic;$("#qUnitTitle").textContent=U[i].t;show("quiz");renderQ();}
+function renderQ(){
+  const u=U[cur.u],q=u.q[cur.q];cur.sel=cur.ans[cur.q];
+  $("#qNow").textContent=cur.q+1;
+  $("#qAnswered").textContent=cur.ans.filter(a=>a!==null).length;
+  $("#pFill").style.width=((cur.q)/30*100)+"%";
+  $("#qTag").textContent="السؤال "+(cur.q+1)+" • درجة واحدة";
+  $("#qText").textContent=q[0];
+  const codeEl=$("#qCode");if(q[4]){codeEl.style.display="block";codeEl.textContent=q[4];}else codeEl.style.display="none";
+  $("#qOpts").innerHTML=q[1].map((o,j)=>`<button class="opt ${cur.sel===j?"sel":""}" data-j="${j}"><span class="ltr">${LTR[j]}</span><span>${esc(o)}</span></button>`).join("");
+  $$("#qOpts .opt").forEach(b=>b.onclick=()=>pick(+b.dataset.j));
+  const nb=$("#nextBtn");nb.disabled=cur.sel===null;nb.textContent=cur.q===29?"🏁 إنهاء الأسئلة":"السؤال التالي ⬅";
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function pick(j){cur.sel=j;cur.ans[cur.q]=j;sfx.pick();$$("#qOpts .opt").forEach((b,k)=>b.classList.toggle("sel",k===j));$("#nextBtn").disabled=false;$("#qAnswered").textContent=cur.ans.filter(a=>a!==null).length;burst($("#qOpts .opt")[j]);}
+$("#nextBtn").onclick=()=>{if(cur.sel===null)return;if(cur.q===29){finish();return;}sfx.next();cur.q++;renderQ();};
+document.addEventListener("keydown",e=>{if(!$("#scr-quiz").classList.contains("on"))return;if(["1","2","3","4"].includes(e.key)){pick(+e.key-1);}else if(e.key==="Enter"&&!$("#nextBtn").disabled){$("#nextBtn").click();}});
+$("#quitQuiz").onclick=()=>$("#quitModal").classList.add("on");
+$("#quitNo").onclick=()=>{$("#quitModal").classList.remove("on");sfx.click();};
+$("#quitYes").onclick=()=>{$("#quitModal").classList.remove("on");renderHome();show("home");sfx.home();};
+/* ---- Result ---- */
+function grade(s){if(s>=27)return["🏆 أسطوري!","#ffb020"];if(s>=24)return["🌟 ممتاز!","#34d399"];if(s>=21)return["✨ جيد جداً","#2dd4bf"];if(s>=18)return["👍 جيد","#38bdf8"];if(s>=15)return["🙂 مقبول","#fbbf24"];return["💪 محتاج مراجعة","#fb7185"];}
+function finish(){
+  const u=U[cur.u];let ok=0;cur.ans.forEach((a,i)=>{if(a===u.q[i][2])ok++;});
+  const prev=S.progress[cur.u];S.progress[cur.u]={best:Math.max(ok,prev?prev.best:0),attempts:(prev?prev.attempts:0)+1,last:ok};save();
+  sfx.finish();
+  $("#resUnit").textContent=u.ic+" "+u.t+" — نتيجة التحدي";
+  $("#rName").textContent=S.student.name;$("#rAge").textContent=S.student.age+" سنة";$("#rDate").textContent=S.student.date;
+  const bad=30-ok;$("#rOk").textContent="✅ صح: "+ok;$("#rBad").textContent="❌ غلط: "+bad;$("#rPct").textContent="📊 "+Math.round(ok/30*100)+"%";
+  const g=grade(ok);$("#gradeTxt").textContent=g[0];$("#gradeTxt").style.color=g[1];
+  const has=cur.u<U.length-1;$("#nextUnitBtn").style.display=has?"inline-flex":"none";$("#nextUnitBtn2").style.display=has?"inline-flex":"none";
+  if(has){$("#nextUnitBtn").textContent="الدرس التالي: "+U[cur.u+1].t+" ⬅";$("#nextUnitBtn2").textContent="الدرس التالي: "+U[cur.u+1].t+" ⬅";}
+  buildReview();show("result");
+  animScore(ok);confetti(ok>=18);
+}
+function animScore(ok){const ring=$("#scoreRing"),C=527.8;ring.style.transition="none";ring.style.strokeDashoffset=C;let n=0;const el=$("#scoreNum");el.textContent="0";requestAnimationFrame(()=>{ring.style.transition="stroke-dashoffset 1.4s cubic-bezier(.2,.9,.3,1)";ring.style.strokeDashoffset=C*(1-ok/30);});const t0=performance.now();(function tick(t){const p=Math.min(1,(t-t0)/1300);n=Math.round(ok*(1-Math.pow(1-p,3)));el.textContent=n;if(p<1)requestAnimationFrame(tick);})(t0);}
+function buildReview(){
+  const u=U[cur.u];let h="";
+  u.q.forEach((q,i)=>{
+    const a=cur.ans[i],ok=a===q[2],skip=a===null;
+    const cls=skip?"skip":ok?"":"wrong";
+    const mark=skip?`<span class="mark mk-skip">⚠️ لم تُجب</span>`:ok?`<span class="mark mk-ok">✅ إجابة صحيحة +1</span>`:`<span class="mark mk-bad">❌ إجابة خاطئة 0</span>`;
+    let opts=q[1].map((o,j)=>{let c="opt",tag="";if(j===q[2]){c+=" correct";tag=`<span class="tagm" style="color:var(--ok)">✔ الصحيحة</span>`;}if(j===a&&!ok){c+=" mine-wrong";tag=`<span class="tagm" style="color:var(--bad)">✘ إجابتك</span>`;}if(j===a&&ok){tag=`<span class="tagm" style="color:var(--ok)">✔ إجابتك</span>`;}return `<div class="${c}"><span class="ltr">${LTR[j]}</span><span>${esc(o)}</span>${tag}</div>`;}).join("");
+    h+=`<div class="card rv ${cls}"><div class="top"><span class="qn">السؤال ${i+1} / 30</span>${mark}</div><div class="qt">${esc(q[0])}</div>${q[4]?`<pre class="qcode">${esc(q[4])}</pre>`:""}<div class="opts">${opts}</div><div class="why"><b>💡 التفسير:</b> ${esc(q[3])}</div></div>`;
+  });
+  $("#reviewBox").innerHTML=h;
+}
+$("#retryBtn").onclick=()=>{sfx.click();startUnit(cur.u);};
+$("#toHomeBtn").onclick=$("#toHomeBtn2").onclick=()=>{renderHome();show("home");sfx.home();};
+$("#nextUnitBtn").onclick=$("#nextUnitBtn2").onclick=()=>{if(cur.u<U.length-1){sfx.next();startUnit(cur.u+1);}};
+$("#printBtn").onclick=()=>window.print();
+/* ---- FX ---- */
+let fxRaf=null;
+function confetti(big){
+  const c=$("#fx"),ctx=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;c.style.display="block";
+  if(fxRaf)cancelAnimationFrame(fxRaf);
+  const cols=["#ffb020","#ff7a1a","#ff5470","#a78bfa","#2dd4bf","#38bdf8","#34d399"];
+  const N=big?170:80,P=[];
+  for(let i=0;i<N;i++)P.push({x:Math.random()*c.width,y:-30-Math.random()*c.height*.4,vx:(Math.random()-.5)*3,vy:2+Math.random()*3.5,s:5+Math.random()*7,r:Math.random()*Math.PI,vr:(Math.random()-.5)*.25,c:cols[i%cols.length]});
+  const t0=performance.now();
+  (function tick(t){ctx.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore();});if(t-t0<3600){fxRaf=requestAnimationFrame(tick);}else{ctx.clearRect(0,0,c.width,c.height);c.style.display="none";fxRaf=null;}})(t0);
+}
+function burst(el){if(!el)return;const r=el.getBoundingClientRect();const d=document.createElement("div");d.style.cssText=`position:fixed;left:${r.left+r.width/2}px;top:${r.top+r.height/2}px;width:8px;height:8px;border-radius:50%;background:var(--sun);z-index:95;pointer-events:none;box-shadow:0 0 18px 6px rgba(255,176,32,.6);transition:.5s;opacity:1`;document.body.appendChild(d);requestAnimationFrame(()=>{d.style.transform="scale(6)";d.style.opacity="0";});setTimeout(()=>d.remove(),550);}
+addEventListener("resize",()=>{const c=$("#fx");if(c.style.display==="block"){c.width=innerWidth;c.height=innerHeight;}});
+/* ---- Boot ---- */
+if(S.student){$("#chipName").textContent=S.student.name;renderHome();show("home");}else show("register");
+</script>
+</body>
+</html>
